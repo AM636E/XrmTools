@@ -1,0 +1,48 @@
+{
+  "version": "1.0.2-*",
+  "description": "DynamicaLabs.XrmTools.Core Class Library",
+  "authors": [ "Nazarii Brenchuk" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "dependencies": {
+    "Microsoft.Crm.Sdk.Proxy.2011": "5.0.18",
+    "Microsoft.Xrm.Client.2011": "5.0.18",
+    "Microsoft.Xrm.Sdk.2011": "5.0.18",
+    "Newtonsoft.Json": "7.0.1",
+    "System.Configuration.Abstractions": "2.0.2.3"
+  },
+
+  "frameworks": {
+    "dnx451": {
+      "frameworkAssemblies": {
+        "System.ServiceModel": "4.0.0.0"
+      }
+    },
+    "net45": {
+      "frameworkAssemblies": {
+        "System.Configuration": "4.0.0.0",
+        "System.ServiceModel": "4.0.0.0"
+      }
+    },
+    "net40": {
+      "frameworkAssemblies": {
+        "System.Configuration": "4.0.0.0",
+        "System.ServiceModel": "4.0.0.0"
+      }
+    },
+    "net451": {
+      "frameworkAssemblies": {
+        "System.Configuration": "4.0.0.0",
+        "System.ServiceModel": "4.0.0.0"
+      }
+    },
+    "net452": {
+      "frameworkAssemblies": {
+        "System.Configuration": "4.0.0.0",
+        "System.ServiceModel": "4.0.0.0"
+      }
+    }
+  }
+}

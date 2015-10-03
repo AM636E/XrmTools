@@ -1,0 +1,12 @@
+{
+  "projects": [
+    "wrap",
+    "src",
+    "tests"
+  ],
+"sdk": {
+"version": "1.0.0-beta7",
+"architecture": "x86",
+"runtime": "clr"
+}
+}

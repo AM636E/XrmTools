@@ -1,0 +1,56 @@
+﻿{
+  "version": "1.2.6-*",
+  "description": "DynamicaLabs.XrmTools.Data Class Library",
+  "authors": [
+    "Nazarii Brenchuk"
+  ],
+  "tags": [
+    ""
+  ],
+  "projectUrl": "",
+  "licenseUrl": "",
+  "dependencies": {
+    "DynamicaLabs.XrmTools.Core": "1.0.2",
+    "DynamicaLabs.XrmTools.Construction": "1.1.2",
+    "Newtonsoft.Json": "7.0.1",
+    "Microsoft.Crm.Sdk.Proxy.2011": "5.0.18",
+    "Microsoft.Xrm.Client.2011": "5.0.18",
+    "Microsoft.Xrm.Sdk.2011": "5.0.18"
+  },
+
+  "frameworks": {
+    "dnx451": {
+      "frameworkAssemblies": {
+        "System.ServiceModel": "4.0.0.0",
+        "System.Configuration": "4.0.0.0"
+      }
+    },
+    "net45": {
+      "frameworkAssemblies": {
+        "System.Configuration": "4.0.0.0",
+        "System.ServiceModel": "4.0.0.0"
+      },
+      "dependencies": {
+        "Microsoft.CSharp": "4.0.0-beta-23019"
+      }
+    },
+    "net4": {
+      "frameworkAssemblies": {
+        "System.Configuration": "4.0.0.0",
+        "System.ServiceModel": "4.0.0.0"
+      }
+    },
+    "net451": {
+      "frameworkAssemblies": {
+        "System.Configuration": "4.0.0.0",
+        "System.ServiceModel": "4.0.0.0"
+      }
+    },
+    "net452": {
+      "frameworkAssemblies": {
+        "System.Configuration": "4.0.0.0",
+        "System.ServiceModel": "4.0.0.0"
+      }
+    }
+  }
+}

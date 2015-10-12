@@ -1,4 +1,5 @@
-﻿using DynamicaLabs.XrmTools.Core;
+﻿using System;
+using DynamicaLabs.XrmTools.Core;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 
@@ -14,6 +15,16 @@ namespace DynamicaLabs.XrmTools.Construction
         public TObject ConstructObject<TObject>(Entity entity)
         {
             throw new System.NotImplementedException();
+        }
+
+        public object ConstructObject(Entity entity, Type objectType)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TObject ConstructObject<TObject>(Entity entity, Type objectType)
+        {
+            throw new NotImplementedException();
         }
 
         public ColumnSet CreateColumnSet<TObject>()

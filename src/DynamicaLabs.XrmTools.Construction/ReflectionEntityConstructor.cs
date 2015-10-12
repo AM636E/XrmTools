@@ -12,11 +12,11 @@ namespace DynamicaLabs.XrmTools.Construction
 {
     public class ReflectionEntityConstructor : IEntityConstructor
     {
-        public TObject ConstructObject<TObject>(Entity entity)
+        public object ConstructObject(Entity entity, Type objectType)
         {
-            var type = typeof(TObject);
+            var type = objectType;
             var properties = GetTypeProperties(type);
-            var result = Activator.CreateInstance<TObject>();
+            var result = Activator.CreateInstance(objectType);
 
             foreach (var pair in properties)
             {
@@ -36,40 +36,29 @@ namespace DynamicaLabs.XrmTools.Construction
                     // Call parse method if types does not match.
                     if (value != null && value.GetType() != prop.PropertyType)
                     {
-                        if (prop.PropertyType == typeof(EntityReference))
-                        {
-                            value = HandleEntityReferenceField(value);
-                        }
-                        else if (prop.PropertyType == typeof(Money))
-                        {
-                            value = HandleMoneyField(value);
-                        }
-                        else if (prop.PropertyType == typeof(OptionSetValue))
-                        {
-                            value = HandleOptionSetField(value);
-                        }
-                        else
-                        {
-                            var meth =
-                                prop
-                                    .PropertyType
-                                    .GetMethod("Parse", new[] { typeof(string) });
-                            if (meth != null)
-                                value = meth.Invoke(null, new object[] { value.ToString() });
-                        }
+                        value = ParseValue(prop, value);
                     }
                     prop.SetValue(result, value, null);
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception($"Failed to set value. Property {prop.Name}. Attribute {attr.CrmName}. Message: {ex.Message}");
+                    throw new ConstructionException($"Failed to set value. Property {prop.Name}. Attribute {attr.CrmName}. Message: {ex.Message}");
                 }
+            }
+
+            var nonProps = type.GetProperties().Where(p => !properties.ContainsKey(p));
+            foreach (var prop in nonProps)
+            {
+                prop.SetValue(result, ConstructObject(entity, prop.PropertyType), null);
             }
 
             return result;
         }
 
-        
+        public TObject ConstructObject<TObject>(Entity entity)
+        {
+            return (TObject)ConstructObject(entity, typeof (TObject));
+        }
 
         private static object HandleEntityReferenceField(object value)
         {
@@ -118,6 +107,25 @@ namespace DynamicaLabs.XrmTools.Construction
             return result;
         }
 
+        public Entity ConstructEntity<TObject>(TObject obj)
+        {
+            var eType = typeof(TObject);
+            var attr = eType.GetCustomAttribute<CrmEntity>();
+            if (attr == null)
+                throw new ArgumentException("Class must be decorated with CrmEntity Attribute to use with CreateEntity");
+            if (string.IsNullOrEmpty(attr.EntityName))
+                throw new ArgumentException("EntityName of CrmEntity Attribute must not be empty.");
+            var crmEntity = new Entity(attr.EntityName)
+            {
+                Attributes = CreateAttributeCollection(obj).ToEntityAttributeCollection()
+            };
+            if (crmEntity.Contains($"{attr.EntityName}id"))
+            {
+                crmEntity.Attributes.Remove(crmEntity.Attributes.FirstOrDefault(a => a.Key == $"{attr.EntityName}id"));
+            }
+            return crmEntity;
+        }
+
         public static Dictionary<PropertyInfo, CrmField> GetTypeProperties(Type type)
         {
             return type
@@ -159,6 +167,32 @@ namespace DynamicaLabs.XrmTools.Construction
             catch (Exception)
             {
                 value = cvalue;
+            }
+            return value;
+        }
+
+        private static object ParseValue(PropertyInfo prop, object value)
+        {
+            if (prop.PropertyType == typeof(EntityReference))
+            {
+                value = HandleEntityReferenceField(value);
+            }
+            else if (prop.PropertyType == typeof(Money))
+            {
+                value = HandleMoneyField(value);
+            }
+            else if (prop.PropertyType == typeof(OptionSetValue))
+            {
+                value = HandleOptionSetField(value);
+            }
+            else
+            {
+                var meth =
+                    prop
+                        .PropertyType
+                        .GetMethod("Parse", new[] { typeof(string) });
+                if (meth != null)
+                    value = meth.Invoke(null, new object[] { value.ToString() });
             }
             return value;
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DynamicaLabs.XrmTools.Construction;
+using DynamicaLabs.XrmTools.Testing;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using Xunit;
@@ -40,11 +41,9 @@ namespace DynamicaLabs.XrmTools.Tests
             };
             var constructor = new ReflectionEntityConstructor();
             var obj = constructor.ConstructObject<TestModel>(entity);
-            Assert.Equal(entity.GetAttributeValue<Guid>("crmid"), obj.Id);
-            Assert.Equal(entity.GetAttributeValue<string>("name"), obj.Name);
-            Assert.Equal(entity.GetAttributeValue<string>("surname"), obj.Surname);
-            Assert.Equal(entity.GetAttributeValue<EntityReference>("entityreference").Id, obj.EntityReferenceField);
-            Assert.Equal(entity.GetAttributeValue<OptionSetValue>("optionset").Value, obj.OptionSetField);
+            TestUtils.AssertEqual(obj, entity);
+            TestUtils.AssertEqual(obj.TestClass, entity);
+            TestUtils.AssertEqual(obj.Item, entity);
         }
 
         [Fact]

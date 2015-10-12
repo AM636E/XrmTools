@@ -26,7 +26,7 @@ namespace DynamicaLabs.XrmTools.Testing
                     entityVal = ReflectionEntityConstructor.ExecuteFieldHandler(entity, prop.Value, entityVal);
                 }
                 // Skip for specific types.
-                if (modelVal is IEnumerable) continue;
+                if (modelVal is IEnumerable && !(modelVal is string)) continue;
                 
                 if (!modelVal.Equals(entityVal))
                     throw new AssertException($"Assertion failed. Property {prop.Key.Name} = {modelVal}. Entity {prop.Value.CrmName} = {entityVal}");
@@ -37,11 +37,5 @@ namespace DynamicaLabs.XrmTools.Testing
         {
             AssertEqual(obj, OrganizationService.Retrieve(entityType, entityGuid, new ColumnSet(true)), strict);
         }
-    }
-
-    public class AssertException : Exception
-    {
-        public AssertException(string s) : base(s)
-        { }
     }
 }

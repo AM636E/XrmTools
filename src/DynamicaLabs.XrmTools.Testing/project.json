@@ -1,0 +1,33 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "DynamicaLabs.XrmTools.Testing Class Library",
+  "authors": [ "Nazarii Brenchuk" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "dependencies": {
+    "DynamicaLabs.XrmTools.Construction": "1.0.0-*",
+    "Newtonsoft.Json": "7.0.1",
+    "Microsoft.Crm.Sdk.Proxy.2011": "5.0.18",
+    "Microsoft.Xrm.Client.2011": "5.0.18",
+    "Microsoft.Xrm.Sdk.2011": "5.0.18"
+  },
+
+  "frameworks": {
+    "net40": {
+      "frameworkAssemblies": {
+        "System.Runtime.Serialization": "4.0.0.0"
+      }
+    },
+    "net45": {
+      "frameworkAssemblies": {
+        "System.Runtime.Serialization": "4.0.0.0"
+      }
+    },
+    "dnx451": {
+      "dependencies": {
+      }
+    }
+  }
+}

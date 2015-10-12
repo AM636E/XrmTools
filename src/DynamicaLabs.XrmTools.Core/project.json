@@ -1,5 +1,5 @@
 {
-  "version": "1.0.2-*",
+  "version": "1.0.0-*",
   "description": "DynamicaLabs.XrmTools.Core Class Library",
   "authors": [ "Nazarii Brenchuk" ],
   "tags": [ "" ],
@@ -17,7 +17,8 @@
   "frameworks": {
     "dnx451": {
       "frameworkAssemblies": {
-        "System.ServiceModel": "4.0.0.0"
+        "System.ServiceModel": "4.0.0.0",
+        "System.Runtime.Serialization": "4.0.0.0"
       }
     },
     "net45": {

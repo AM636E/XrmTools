@@ -3,7 +3,7 @@ using System.Linq;
 using DynamicaLabs.XrmTools.Construction;
 using Microsoft.Xrm.Sdk;
 
-namespace DynamicaLabs.XrmServiceToolkit.Construction.Tests
+namespace DynamicaLabs.XrmTools.Tests
 {
     public class TestFieldHandler : IFieldHandler<object, object[]>
     {

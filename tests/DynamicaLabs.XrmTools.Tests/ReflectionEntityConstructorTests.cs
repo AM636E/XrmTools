@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using DynamicaLabs.XrmTools.Construction;
-using DynamicaLabs.XrmTools.Construction.Attributes;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using Xunit;
 using Assert = Xunit.Assert;
 
-namespace DynamicaLabs.XrmServiceToolkit.Construction.Tests
+namespace DynamicaLabs.XrmTools.Tests
 {
     public class ReflectionEntityConstructorTests
     {
@@ -16,7 +15,7 @@ namespace DynamicaLabs.XrmServiceToolkit.Construction.Tests
         public void CreateColumnSet()
         {
             var constructor = new ReflectionEntityConstructor();
-            var columnSet = constructor.CreateColumnSet<Test>();
+            var columnSet = constructor.CreateColumnSet<TestModel>();
 
             var expectedColumnSet = new ColumnSet("crmid", "name", "surname");
             foreach (var column in expectedColumnSet.Columns)
@@ -40,7 +39,7 @@ namespace DynamicaLabs.XrmServiceToolkit.Construction.Tests
                 }
             };
             var constructor = new ReflectionEntityConstructor();
-            var obj = constructor.ConstructObject<Test>(entity);
+            var obj = constructor.ConstructObject<TestModel>(entity);
             Assert.Equal(entity.GetAttributeValue<Guid>("crmid"), obj.Id);
             Assert.Equal(entity.GetAttributeValue<string>("name"), obj.Name);
             Assert.Equal(entity.GetAttributeValue<string>("surname"), obj.Surname);
@@ -59,7 +58,7 @@ namespace DynamicaLabs.XrmServiceToolkit.Construction.Tests
                 }
             };
             var constructor = new ReflectionEntityConstructor();
-            var obj = constructor.ConstructObject<Test>(entity);
+            var obj = constructor.ConstructObject<TestModel>(entity);
             Assert.Equal(Guid.Empty, obj.EntityReferenceField);
         }
 
@@ -74,14 +73,14 @@ namespace DynamicaLabs.XrmServiceToolkit.Construction.Tests
                 }
             };
             var constructor = new ReflectionEntityConstructor();
-            var obj = constructor.ConstructObject<Test>(entity);
+            var obj = constructor.ConstructObject<TestModel>(entity);
             Assert.Equal(0, obj.OptionSetField);
         }
 
         [Fact]
         public void CreateAttributeCollection()
         {
-            var obj = new Test
+            var obj = new TestModel
             {
                 Id = Guid.Parse("FD93433F-694E-4B30-9B7E-668B3E53A8E5"),
                 Surname = "Shumway",
@@ -108,7 +107,7 @@ namespace DynamicaLabs.XrmServiceToolkit.Construction.Tests
                     new KeyValuePair<string, object>("optionset", new OptionSetValue(100)),
                 }
             };
-            var test = new ReflectionEntityConstructor().ConstructObject<Test>(entity);
+            var test = new ReflectionEntityConstructor().ConstructObject<TestModel>(entity);
 
             Assert.NotNull(test.VerySpecificProp);
             foreach (var val in entity.Attributes.Select(a => a.Value))
@@ -117,35 +116,7 @@ namespace DynamicaLabs.XrmServiceToolkit.Construction.Tests
             }
         }
 
-        // ReSharper disable once ClassNeverInstantiated.Local
-        private class Test
-        {
-            [CrmField(CrmName = "crmid")]
-            // ReSharper disable once UnusedAutoPropertyAccessor.Local
-            public Guid Id { get; set; }
-
-            [CrmField(CrmName = "name")]
-            // ReSharper disable once UnusedAutoPropertyAccessor.Local
-            public string Name { get; set; }
-
-            [CrmField(CrmName = "surname")]
-            // ReSharper disable once UnusedAutoPropertyAccessor.Local
-            public string Surname { get; set; }
-
-            [CrmField(CrmName = "entityreference", FieldHandler = typeof(GuidEntityReferenceFieldHandler))]
-            // ReSharper disable once UnusedAutoPropertyAccessor.Local
-            public Guid EntityReferenceField { get; set; }
-
-            [CrmField(CrmName = "optionset", FieldHandler = typeof(OptionSetFieldHandler))]
-            // ReSharper disable once UnusedAutoPropertyAccessor.Local
-            public int OptionSetField { get; set; }
-
-            [CrmField(CrmName = "optionset", FieldHandler = typeof(TestFieldHandler), RequiresEntity = true)]
-            // ReSharper disable once UnusedMember.Local
-            public object[] VerySpecificProp { get; set; }
-
-            // ReSharper disable once UnusedMember.Local
-            public int NotSettedProp { get; set; }
-        }
+       
     }
+    // ReSharper disable once ClassNeverInstantiated.Local
 }

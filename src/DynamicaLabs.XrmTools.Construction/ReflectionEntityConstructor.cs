@@ -12,16 +12,6 @@ namespace DynamicaLabs.XrmTools.Construction
 {
     public class ReflectionEntityConstructor : IEntityConstructor
     {
-        internal static Dictionary<PropertyInfo, CrmField> GetTypeProperties(Type type)
-        {
-            return type
-                .GetProperties()
-                .ToDictionary(p => p, p => p.GetCustomAttributes(typeof(CrmField), false).FirstOrDefault())
-                // Attribute of type CrmField exists on property.
-                .Where(kv => kv.Value != null)
-                .ToDictionary(k => k.Key, v => (CrmField)v.Value);
-        }
-
         public TObject ConstructObject<TObject>(Entity entity)
         {
             var type = typeof(TObject);
@@ -41,36 +31,7 @@ namespace DynamicaLabs.XrmTools.Construction
                     // Execute handler if present.
                     if (attr.FieldHandler != null && value != null)
                     {
-                        var handlerInst = Activator.CreateInstance(attr.FieldHandler);
-                        object[] arguments;
-                        MethodInfo method;
-                        if (attr.RequiresEntity)
-                        {
-                            method =
-                                attr
-                                .FieldHandler
-                                .GetMethod("HandleField", new[] { value.GetType(), typeof(Entity) });
-                            arguments = new[] { value, entity };
-                        }
-                        else
-                        {
-                            method =
-                                attr
-                                .FieldHandler
-                                .GetMethod("HandleField", new[] { value.GetType() });
-                            arguments = new[] { value };
-                        }
-
-                        var cvalue = value;
-
-                        try
-                        {
-                            value = method.Invoke(handlerInst, arguments);
-                        }
-                        catch (Exception)
-                        {
-                            value = cvalue;
-                        }
+                        value = ExecuteFieldHandler(entity, attr, value);
                     }
                     // Call parse method if types does not match.
                     if (value != null && value.GetType() != prop.PropertyType)
@@ -107,6 +68,8 @@ namespace DynamicaLabs.XrmTools.Construction
 
             return result;
         }
+
+        
 
         private static object HandleEntityReferenceField(object value)
         {
@@ -153,6 +116,51 @@ namespace DynamicaLabs.XrmTools.Construction
                 result.Add(new RequestAttribute(attr.CrmName, val));
             }
             return result;
+        }
+
+        public static Dictionary<PropertyInfo, CrmField> GetTypeProperties(Type type)
+        {
+            return type
+                .GetProperties()
+                .ToDictionary(p => p, p => p.GetCustomAttributes(typeof(CrmField), false).FirstOrDefault())
+                // Attribute of type CrmField exists on property.
+                .Where(kv => kv.Value != null)
+                .ToDictionary(k => k.Key, v => (CrmField)v.Value);
+        }
+
+        public static object ExecuteFieldHandler(Entity entity, CrmField attr, object value)
+        {
+            var handlerInst = Activator.CreateInstance(attr.FieldHandler);
+            object[] arguments;
+            MethodInfo method;
+            if (attr.RequiresEntity)
+            {
+                method =
+                    attr
+                        .FieldHandler
+                        .GetMethod("HandleField", new[] { value.GetType(), typeof(Entity) });
+                arguments = new[] { value, entity };
+            }
+            else
+            {
+                method =
+                    attr
+                        .FieldHandler
+                        .GetMethod("HandleField", new[] { value.GetType() });
+                arguments = new[] { value };
+            }
+
+            var cvalue = value;
+
+            try
+            {
+                value = method.Invoke(handlerInst, arguments);
+            }
+            catch (Exception)
+            {
+                value = cvalue;
+            }
+            return value;
         }
     }
 }

@@ -4,8 +4,11 @@ using DynamicaLabs.XrmTools.Construction.Attributes;
 
 namespace DynamicaLabs.XrmTools.Tests
 {
+    [CrmEntity("testentity")]
     public class TestModel
     {
+        [CrmField("testentityid")]
+        public Guid CrmId { get; set; }
         [CrmField(CrmName = "crmid")]
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         public Guid Id { get; set; }

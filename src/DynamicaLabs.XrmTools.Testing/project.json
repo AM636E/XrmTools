@@ -7,7 +7,7 @@
   "licenseUrl": "",
 
   "dependencies": {
-    "DynamicaLabs.XrmTools.Construction": "1.0.0-*",
+    "DynamicaLabs.XrmTools.Construction": "1.1.3-*",
     "Newtonsoft.Json": "7.0.1",
     "Microsoft.Crm.Sdk.Proxy.2011": "5.0.18",
     "Microsoft.Xrm.Client.2011": "5.0.18",

@@ -92,8 +92,8 @@ namespace DynamicaLabs.XrmTools.Data
             {
                 var columnset = _entityConstructor.CreateColumnSet<T>();
                 // ReSharper disable CanBeReplacedWithTryCastAndCheckForNull
-                if (query is QueryExpression) ((QueryExpression)query).ColumnSet = columnset;
-                else if (query is QueryByAttribute) ((QueryByAttribute)query).ColumnSet = columnset;
+                if (query is QueryExpression) ((QueryExpression) query).ColumnSet = columnset;
+                else if (query is QueryByAttribute) ((QueryByAttribute) query).ColumnSet = columnset;
                 // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
                 var entities = service.RetrieveMultiple(query).Entities;
 
@@ -108,8 +108,8 @@ namespace DynamicaLabs.XrmTools.Data
                 service.CallerId = userGuid;
                 var columnset = _entityConstructor.CreateColumnSet<T>();
                 // ReSharper disable CanBeReplacedWithTryCastAndCheckForNull
-                if (query is QueryExpression) ((QueryExpression)query).ColumnSet = columnset;
-                else if (query is QueryByAttribute) ((QueryByAttribute)query).ColumnSet = columnset;
+                if (query is QueryExpression) ((QueryExpression) query).ColumnSet = columnset;
+                else if (query is QueryByAttribute) ((QueryByAttribute) query).ColumnSet = columnset;
                 // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
                 var entities = service.RetrieveMultiple(query).Entities;
 
@@ -119,7 +119,7 @@ namespace DynamicaLabs.XrmTools.Data
 
         public IEnumerable<Entity> GetEntities(string entityType, ColumnSet columnSet)
         {
-            return GetEntities(entityType, new QueryExpression(entityType) { ColumnSet = columnSet });
+            return GetEntities(entityType, new QueryExpression(entityType) {ColumnSet = columnSet});
         }
 
         public IEnumerable<Entity> GetEntities(string entityType, QueryBase query)
@@ -140,7 +140,7 @@ namespace DynamicaLabs.XrmTools.Data
             using (var proxy = CreateProxy())
             {
                 proxy.CallerId = Guid.Parse(userId);
-                var query = new QueryExpression(entityType) { ColumnSet = columnSet };
+                var query = new QueryExpression(entityType) {ColumnSet = columnSet};
                 // Retrieve only active entities.
                 if (entityType != "systemuser")
                 {
@@ -191,11 +191,6 @@ namespace DynamicaLabs.XrmTools.Data
             return _entityConstructor.ConstructObject<TObject>(UpdateEntity(entity.LogicalName, entity, userId));
         }
 
-        private Entity GUtil<TObject>(TObject entity)
-        {
-            return _entityConstructor.ConstructEntity(entity);
-        }
-
         public TObject CreateEntity<TObject>(TObject entity)
         {
             var crmEntity = GUtil(entity);
@@ -220,7 +215,6 @@ namespace DynamicaLabs.XrmTools.Data
                 return proxy.Retrieve(entityType, e, new ColumnSet(true));
             }
         }
-
 
 
         public virtual Entity CreateEntity(string entityType, Entity entity)
@@ -282,7 +276,8 @@ namespace DynamicaLabs.XrmTools.Data
             }
         }
 
-        public IEnumerable<Entity> QueryByAttributes(string entityName, IDictionary<string, object> attributes, bool onlyActive = true, bool strict = true)
+        public IEnumerable<Entity> QueryByAttributes(string entityName, IDictionary<string, object> attributes,
+            bool onlyActive = true, bool strict = true)
         {
             var expr = Utils.ToQueryExpression(entityName, attributes, strict);
             expr.ColumnSet = new ColumnSet(true);
@@ -293,7 +288,8 @@ namespace DynamicaLabs.XrmTools.Data
             return GetEntities(entityName, expr);
         }
 
-        public IEnumerable<Entity> QueryByAttributes(string entityName, IDictionary<string, object> attributes, Guid userId, bool onlyActive = true,
+        public IEnumerable<Entity> QueryByAttributes(string entityName, IDictionary<string, object> attributes,
+            Guid userId, bool onlyActive = true,
             bool strict = true)
         {
             var expr = Utils.ToQueryExpression(entityName, attributes, strict);
@@ -305,7 +301,8 @@ namespace DynamicaLabs.XrmTools.Data
             return GetAccessableEntities(expr, userId);
         }
 
-        public IEnumerable<TEntity> QueryByAttributes<TEntity>(string entityName, IDictionary<string, object> attributes, bool onlyActive = true, bool strict = true)
+        public IEnumerable<TEntity> QueryByAttributes<TEntity>(string entityName, IDictionary<string, object> attributes,
+            bool onlyActive = true, bool strict = true)
         {
             var expr = Utils.ToQueryExpression(entityName, attributes, strict);
             if (onlyActive)
@@ -315,7 +312,8 @@ namespace DynamicaLabs.XrmTools.Data
             return GetEntities<TEntity>(expr);
         }
 
-        public IEnumerable<TEntity> QueryByAttributes<TEntity>(string entityName, IDictionary<string, object> attributes, Guid userid, bool onlyActive = true, bool strict = true)
+        public IEnumerable<TEntity> QueryByAttributes<TEntity>(string entityName, IDictionary<string, object> attributes,
+            Guid userid, bool onlyActive = true, bool strict = true)
         {
             var expr = Utils.ToQueryExpression(entityName, attributes, strict);
             if (onlyActive)
@@ -324,6 +322,11 @@ namespace DynamicaLabs.XrmTools.Data
             }
 
             return GetEntities<TEntity>(expr);
+        }
+
+        private Entity GUtil<TObject>(TObject entity)
+        {
+            return _entityConstructor.ConstructEntity(entity);
         }
 
         protected OrganizationService CreateOrganizationService()

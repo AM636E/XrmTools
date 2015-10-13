@@ -26,6 +26,6 @@ namespace DynamicaLabs.XrmTools.Data
         /// <returns></returns>
         OptionSetValue GetOptionSetValue(string optionSetName, string optionSetString, string entityLogicalName);
 
-        Dictionary<int, string> GetMapping(string entityName, string optionSetName); 
+        Dictionary<int, string> GetMapping(string entityName, string optionSetName);
     }
 }

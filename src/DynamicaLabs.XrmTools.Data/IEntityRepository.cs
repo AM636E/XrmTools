@@ -168,9 +168,16 @@ namespace DynamicaLabs.XrmTools.Data
         /// <param name="userGuid"></param>
         void DisableEntity(string entityType, Guid entityGuid, Guid userGuid);
 
-        IEnumerable<Entity> QueryByAttributes(string entityName, IDictionary<string, object> attributes, bool onlyActive = true, bool strict = true );
-        IEnumerable<Entity> QueryByAttributes(string entityName, IDictionary<string, object> attributes, Guid userId, bool onlyActive = true, bool strict = true );
-        IEnumerable<TEntity> QueryByAttributes<TEntity>(string entityName, IDictionary<string, object> attributes, bool onlyActive = true, bool strict = true);
-        IEnumerable<TEntity> QueryByAttributes<TEntity>(string entityName, IDictionary<string, object> attributes, Guid userid, bool onlyActive = true, bool strict = true);
+        IEnumerable<Entity> QueryByAttributes(string entityName, IDictionary<string, object> attributes,
+            bool onlyActive = true, bool strict = true);
+
+        IEnumerable<Entity> QueryByAttributes(string entityName, IDictionary<string, object> attributes, Guid userId,
+            bool onlyActive = true, bool strict = true);
+
+        IEnumerable<TEntity> QueryByAttributes<TEntity>(string entityName, IDictionary<string, object> attributes,
+            bool onlyActive = true, bool strict = true);
+
+        IEnumerable<TEntity> QueryByAttributes<TEntity>(string entityName, IDictionary<string, object> attributes,
+            Guid userid, bool onlyActive = true, bool strict = true);
     }
 }

@@ -17,20 +17,21 @@ namespace DynamicaLabs.XrmTools.Core
             if (s != null)
                 return IsNullOrEmpty(value.ToString());
             if (value is Guid)
-                return (Guid)value == Guid.Empty;
+                return (Guid) value == Guid.Empty;
             if (value is DateTime)
-                return (DateTime)value == DateTime.MinValue;
+                return (DateTime) value == DateTime.MinValue;
             var setValue = value as OptionSetValue;
             if (setValue != null)
                 return setValue.Value == 0;
             if (value is int)
-                return (int)value == 0;
+                return (int) value == 0;
             if (value is double)
-                return Math.Abs((double)value) == 0.0;
+                return Math.Abs((double) value) == 0.0;
             return false;
         }
 
-        public static QueryExpression ToQueryExpression(string entityName, IDictionary<string, object> attributes, bool strict = true)
+        public static QueryExpression ToQueryExpression(string entityName, IDictionary<string, object> attributes,
+            bool strict = true)
         {
             var query = new QueryExpression(entityName)
             {
@@ -38,7 +39,10 @@ namespace DynamicaLabs.XrmTools.Core
             };
 
             attributes
-                .Select(a => new ConditionExpression(a.Key, strict ? ConditionOperator.Equal : ConditionOperator.Like, a.Value))
+                .Select(
+                    a =>
+                        new ConditionExpression(a.Key, strict ? ConditionOperator.Equal : ConditionOperator.Like,
+                            a.Value))
                 .ToList()
                 .ForEach(a => query.Criteria.AddCondition(a));
 

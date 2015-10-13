@@ -7,7 +7,7 @@ using XrmAttributeCollection = Microsoft.Xrm.Sdk.AttributeCollection;
 
 namespace DynamicaLabs.XrmTools.Core
 {
-    [JsonConverter(typeof(RequestAttributeConverter))]
+    [JsonConverter(typeof (RequestAttributeConverter))]
     public class RequestAttributeCollection : List<RequestAttribute>
     {
         public string[] Keys
@@ -16,8 +16,8 @@ namespace DynamicaLabs.XrmTools.Core
         }
 
         /// <summary>
-        /// Getter throws exception if key not found.
-        /// Setter removed previous value if exists.
+        ///     Getter throws exception if key not found.
+        ///     Setter removed previous value if exists.
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
@@ -43,7 +43,7 @@ namespace DynamicaLabs.XrmTools.Core
         }
 
         /// <summary>
-        /// Converts this attribute collection to <see cref="XrmAttributeCollection"/>
+        ///     Converts this attribute collection to <see cref="XrmAttributeCollection" />
         /// </summary>
         /// <param name="excludeEmpty">Exclude empty values</param>
         /// <returns></returns>
@@ -71,7 +71,7 @@ namespace DynamicaLabs.XrmTools.Core
 
         public override string ToString()
         {
-            return "{\n" + Join(",\n", this.Select(a => $"\"{a.Key}\" : \"{a.Value}\""))  + "\n}";
+            return "{\n" + Join(",\n", this.Select(a => $"\"{a.Key}\" : \"{a.Value}\"")) + "\n}";
         }
     }
 }

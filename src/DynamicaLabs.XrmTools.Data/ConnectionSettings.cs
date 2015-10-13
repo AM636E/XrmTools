@@ -29,10 +29,7 @@ namespace DynamicaLabs.XrmTools.Data
         [ConfigurationProperty("debug", IsRequired = false)]
         public bool Debug
         {
-            get
-            {
-                return bool.Parse(this["debug"].ToString());
-            }
+            get { return bool.Parse(this["debug"].ToString()); }
             set { this["debug"] = value; }
         }
 

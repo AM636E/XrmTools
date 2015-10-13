@@ -1,4 +1,5 @@
-﻿using Microsoft.Xrm.Sdk;
+﻿using System;
+using Microsoft.Xrm.Sdk;
 
 namespace DynamicaLabs.XrmTools.Construction
 {
@@ -11,7 +12,7 @@ namespace DynamicaLabs.XrmTools.Construction
 
         public decimal HandleField(Money field, Entity entity)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

@@ -9,12 +9,11 @@ namespace DynamicaLabs.XrmTools.Construction
     {
         public JsonEntityConstructor(string mappingPath)
         {
-            
         }
 
         public TObject ConstructObject<TObject>(Entity entity)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public object ConstructObject(Entity entity, Type objectType)
@@ -22,22 +21,22 @@ namespace DynamicaLabs.XrmTools.Construction
             throw new NotImplementedException();
         }
 
-        public TObject ConstructObject<TObject>(Entity entity, Type objectType)
+        public ColumnSet CreateColumnSet<TObject>()
         {
             throw new NotImplementedException();
         }
 
-        public ColumnSet CreateColumnSet<TObject>()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public RequestAttributeCollection CreateAttributeCollection<TObject>(TObject obj, bool excludeEmpty = false)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public Entity ConstructEntity<TObject>(TObject obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TObject ConstructObject<TObject>(Entity entity, Type objectType)
         {
             throw new NotImplementedException();
         }

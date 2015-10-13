@@ -4,16 +4,17 @@
     {
         public enum CheckStatus
         {
-            Valid, Invalid
+            Valid,
+            Invalid
         }
-
-        public CheckStatus Status { get; set; }
-        public string Message { get; set; }
 
         public CheckResult(CheckStatus status, string message)
         {
             Status = status;
             Message = message;
         }
+
+        public CheckStatus Status { get; set; }
+        public string Message { get; set; }
     }
 }

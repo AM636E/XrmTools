@@ -13,12 +13,12 @@ namespace DynamicaLabs.WebTools.Filters
 {
     public class LoggingFilter : IExceptionFilter, IActionFilter
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly ILogGenerator _logGenerator;
 
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
-        public LoggingFilter(): this(new LogGenerator())
-        { }
+        public LoggingFilter() : this(new LogGenerator())
+        {
+        }
 
         public LoggingFilter(ILogGenerator logGenerator)
         {
@@ -27,7 +27,8 @@ namespace DynamicaLabs.WebTools.Filters
 
         public LoggingFilter(Func<HttpActionExecutedContext, string> additionString) :
             this(new LogGenerator(additionString))
-        { }
+        {
+        }
 
         public Task<HttpResponseMessage> ExecuteActionFilterAsync(HttpActionContext actionContext,
             CancellationToken cancellationToken, Func<Task<HttpResponseMessage>> continuation)
@@ -50,7 +51,7 @@ namespace DynamicaLabs.WebTools.Filters
                 };
                 var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
                 {
-                    Content = new ObjectContent(typeof(object), data, new JsonMediaTypeFormatter())
+                    Content = new ObjectContent(typeof (object), data, new JsonMediaTypeFormatter())
                 };
                 return response;
             });

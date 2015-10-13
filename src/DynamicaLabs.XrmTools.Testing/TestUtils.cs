@@ -11,7 +11,7 @@ namespace DynamicaLabs.XrmTools.Testing
         public static IOrganizationService OrganizationService { get; set; }
 
         /// <summary>
-        /// Check if annotated object properties equals to entity properties.
+        ///     Check if annotated object properties equals to entity properties.
         /// </summary>
         /// <typeparam name="TObject">Type of object being compared</typeparam>
         /// <param name="obj">Object to check.</param>
@@ -19,7 +19,7 @@ namespace DynamicaLabs.XrmTools.Testing
         /// <param name="strict">If true checks if entity contains all fields that in object.</param>
         public static void AssertEqual<TObject>(TObject obj, Entity entity, bool strict = false)
         {
-            var props = ReflectionEntityConstructor.GetTypeProperties(typeof(TObject));
+            var props = ReflectionEntityConstructor.GetTypeProperties(typeof (TObject));
             foreach (var prop in props)
             {
                 var c = entity.Contains(prop.Value.CrmName);
@@ -34,14 +34,15 @@ namespace DynamicaLabs.XrmTools.Testing
                 }
                 // Skip for specific types.
                 if (modelVal is IEnumerable && !(modelVal is string)) continue;
-                
+
                 if (!modelVal.Equals(entityVal))
-                    throw new AssertException($"Assertion failed. Property {prop.Key.Name} = {modelVal}. Entity {prop.Value.CrmName} = {entityVal}");
+                    throw new AssertException(
+                        $"Assertion failed. Property {prop.Key.Name} = {modelVal}. Entity {prop.Value.CrmName} = {entityVal}");
             }
         }
 
         /// <summary>
-        /// Retrieves entity from Crm and executes <see cref="AssertEqual{TObject}(TObject,Microsoft.Xrm.Sdk.Entity,bool)"/>
+        ///     Retrieves entity from Crm and executes <see cref="AssertEqual{TObject}(TObject,Microsoft.Xrm.Sdk.Entity,bool)" />
         /// </summary>
         /// <typeparam name="TObject"></typeparam>
         /// <param name="obj"></param>

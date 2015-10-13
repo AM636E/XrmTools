@@ -2,8 +2,10 @@
 
 namespace DynamicaLabs.XrmTools.Core.Configuration.Exceptions
 {
-    class InvalidRequestException : Exception
+    internal class InvalidRequestException : Exception
     {
-        public InvalidRequestException(string message) : base(message) { }
+        public InvalidRequestException(string message) : base(message)
+        {
+        }
     }
 }

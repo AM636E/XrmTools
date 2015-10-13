@@ -9,6 +9,7 @@ namespace DynamicaLabs.XrmTools.Tests
     {
         [CrmField("testentityid")]
         public Guid CrmId { get; set; }
+
         [CrmField(CrmName = "crmid")]
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         public Guid Id { get; set; }
@@ -21,15 +22,15 @@ namespace DynamicaLabs.XrmTools.Tests
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         public string Surname { get; set; }
 
-        [CrmField(CrmName = "entityreference", FieldHandler = typeof(GuidEntityReferenceFieldHandler))]
+        [CrmField(CrmName = "entityreference", FieldHandler = typeof (GuidEntityReferenceFieldHandler))]
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         public Guid EntityReferenceField { get; set; }
 
-        [CrmField(CrmName = "optionset", FieldHandler = typeof(OptionSetFieldHandler))]
+        [CrmField(CrmName = "optionset", FieldHandler = typeof (OptionSetFieldHandler))]
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         public int OptionSetField { get; set; }
 
-        [CrmField(CrmName = "optionset", FieldHandler = typeof(TestFieldHandler), RequiresEntity = true)]
+        [CrmField(CrmName = "optionset", FieldHandler = typeof (TestFieldHandler), RequiresEntity = true)]
         // ReSharper disable once UnusedMember.Local
         public object[] VerySpecificProp { get; set; }
 
@@ -53,15 +54,15 @@ namespace DynamicaLabs.XrmTools.Tests
 
     public class TestClass
     {
-        [CrmField(CrmName = "entityreference", FieldHandler = typeof(GuidEntityReferenceFieldHandler))]
+        [CrmField(CrmName = "entityreference", FieldHandler = typeof (GuidEntityReferenceFieldHandler))]
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         public Guid EntityReferenceField { get; set; }
 
-        [CrmField(CrmName = "optionset", FieldHandler = typeof(OptionSetFieldHandler))]
+        [CrmField(CrmName = "optionset", FieldHandler = typeof (OptionSetFieldHandler))]
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         public int OptionSetField { get; set; }
 
-        [CrmField(CrmName = "optionset", FieldHandler = typeof(TestFieldHandler), RequiresEntity = true)]
+        [CrmField(CrmName = "optionset", FieldHandler = typeof (TestFieldHandler), RequiresEntity = true)]
         // ReSharper disable once UnusedMember.Local
         public object[] VerySpecificProp { get; set; }
     }

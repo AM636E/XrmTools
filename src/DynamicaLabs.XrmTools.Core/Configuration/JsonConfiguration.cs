@@ -40,7 +40,7 @@ namespace DynamicaLabs.XrmTools.Core.Configuration
             var keys = attributes.Keys;
             var allFields = fields["required"].ToObject<string[]>();
             var diff = allFields.Where(f => !keys.Contains(f)).ToList();
-            
+
             // Missing fields
             if (diff.Any())
             {

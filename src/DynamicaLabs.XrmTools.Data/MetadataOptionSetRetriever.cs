@@ -8,7 +8,7 @@ using Microsoft.Xrm.Sdk.Metadata;
 namespace DynamicaLabs.XrmTools.Data
 {
     /// <summary>
-    /// Retrieves option set from crm metadata.
+    ///     Retrieves option set from crm metadata.
     /// </summary>
     public class MetadataOptionSetRetriever : IOptionSetRetriever
     {

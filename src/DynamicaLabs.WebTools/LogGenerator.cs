@@ -9,17 +9,19 @@ namespace DynamicaLabs.WebTools
 {
     public class LogGenerator : List<Func<HttpActionExecutedContext, string>>, ILogGenerator
     {
-        private static readonly List<Func<HttpActionExecutedContext, string>> AdditionalStrings = new List<Func<HttpActionExecutedContext, string>>
+        private static readonly List<Func<HttpActionExecutedContext, string>> AdditionalStrings = new List
+            <Func<HttpActionExecutedContext, string>>
         {
             // Exception type, place and message.
-            context => $"\r\n{context.Exception.GetType().FullName} in {context.ActionContext.ControllerContext.Controller} : {context.Exception.Message}",
+            context =>
+                $"\r\n{context.Exception.GetType().FullName} in {context.ActionContext.ControllerContext.Controller} : {context.Exception.Message}",
             // Display incoming data.
             context =>
-                 $@"Parameters: {Join(",${newline}\r\n",
-                        context.ActionContext.ActionArguments.Select(
-                            a => $"\"{a.Key}\" = {JsonConvert.SerializeObject(a.Value, Formatting.Indented)}"))}",
+                $@"Parameters: {Join(",${newline}\r\n",
+                    context.ActionContext.ActionArguments.Select(
+                        a => $"\"{a.Key}\" = {JsonConvert.SerializeObject(a.Value, Formatting.Indented)}"))}",
             // Stack trace.
-            context => $"$\r\nStack Trace: {context.Exception.StackTrace}",
+            context => $"$\r\nStack Trace: {context.Exception.StackTrace}"
         };
 
         public LogGenerator()
@@ -34,9 +36,11 @@ namespace DynamicaLabs.WebTools
         }
 
         public LogGenerator(Func<HttpActionExecutedContext, string> additionString) :
-            this(new List<Func<HttpActionExecutedContext, string>> { additionString })
-        { }
+            this(new List<Func<HttpActionExecutedContext, string>> {additionString})
+        {
+        }
 
-        public string GenerateLogMessage(HttpActionExecutedContext actionExecutedContext) => Join("\n", AdditionalStrings.Select(a => a(actionExecutedContext)));
+        public string GenerateLogMessage(HttpActionExecutedContext actionExecutedContext)
+            => Join("\n", AdditionalStrings.Select(a => a(actionExecutedContext)));
     }
 }

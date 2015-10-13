@@ -30,7 +30,7 @@ namespace DynamicaLabs.XrmTools.Data
             _uri = connectionStringProvider.GetUrl();
             _userName = connectionStringProvider.GetUsername();
             _password = connectionStringProvider.GetPassword();
-            _connectionString = string.Format("Url={0}; Username={1}; Password={2}", _uri, _userName, _password);
+            _connectionString = $"Url={_uri}; Username={_userName}; Password={_password}";
         }
 
         public IEnumerable<Entity> GetAccessableEntities(QueryBase query, Guid userId)

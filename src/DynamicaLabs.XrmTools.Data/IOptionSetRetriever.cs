@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xrm.Sdk;
 
 namespace DynamicaLabs.XrmTools.Data
@@ -13,8 +12,8 @@ namespace DynamicaLabs.XrmTools.Data
         /// <param name="value">Value of option set.</param>
         /// <param name="entityLogicalName">etn.</param>
         /// <param name="default">Default value to return String.Empty when value.Value equals @default</param>
-        /// <exception cref="ArgumentNullException">optionSetName is null</exception>
-        /// <exception cref="ArgumentNullException">value is null</exception>
+        /// <exception cref="System.ArgumentNullException">optionSetName is null</exception>
+        /// <exception cref="System.ArgumentNullException">value is null</exception>
         /// <returns>Option set string value.</returns>
         string GetOptionSetText(string optionSetName, OptionSetValue value, string entityLogicalName, int @default = 0);
 

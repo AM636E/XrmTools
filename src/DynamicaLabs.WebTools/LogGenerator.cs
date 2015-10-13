@@ -37,7 +37,6 @@ namespace DynamicaLabs.WebTools
             this(new List<Func<HttpActionExecutedContext, string>> { additionString })
         { }
 
-        public string GenerateLogMessage(HttpActionExecutedContext actionExecutedContext) =>
-            Join("\n", AdditionalStrings.Select(a => a(actionExecutedContext)));
+        public string GenerateLogMessage(HttpActionExecutedContext actionExecutedContext) => Join("\n", AdditionalStrings.Select(a => a(actionExecutedContext)));
     }
 }

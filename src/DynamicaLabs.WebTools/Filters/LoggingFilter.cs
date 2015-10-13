@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
@@ -52,7 +50,7 @@ namespace DynamicaLabs.WebTools.Filters
                 };
                 var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
                 {
-                    Content = new ObjectContent(typeof(Object), data, new JsonMediaTypeFormatter())
+                    Content = new ObjectContent(typeof(object), data, new JsonMediaTypeFormatter())
                 };
                 return response;
             });

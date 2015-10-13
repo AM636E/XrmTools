@@ -10,6 +10,13 @@ namespace DynamicaLabs.XrmTools.Testing
     {
         public static IOrganizationService OrganizationService { get; set; }
 
+        /// <summary>
+        /// Check if annotated object properties equals to entity properties.
+        /// </summary>
+        /// <typeparam name="TObject">Type of object being compared</typeparam>
+        /// <param name="obj">Object to check.</param>
+        /// <param name="entity">Entity to check with</param>
+        /// <param name="strict">If true checks if entity contains all fields that in object.</param>
         public static void AssertEqual<TObject>(TObject obj, Entity entity, bool strict = false)
         {
             var props = ReflectionEntityConstructor.GetTypeProperties(typeof(TObject));
@@ -33,6 +40,14 @@ namespace DynamicaLabs.XrmTools.Testing
             }
         }
 
+        /// <summary>
+        /// Retrieves entity from Crm and executes <see cref="AssertEqual{TObject}(TObject,Microsoft.Xrm.Sdk.Entity,bool)"/>
+        /// </summary>
+        /// <typeparam name="TObject"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="entityType"></param>
+        /// <param name="entityGuid"></param>
+        /// <param name="strict"></param>
         public static void AssertEqual<TObject>(TObject obj, string entityType, Guid entityGuid, bool strict = false)
         {
             AssertEqual(obj, OrganizationService.Retrieve(entityType, entityGuid, new ColumnSet(true)), strict);

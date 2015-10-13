@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using static System.String;
 using XrmAttributeCollection = Microsoft.Xrm.Sdk.AttributeCollection;
 
 namespace DynamicaLabs.XrmTools.Core
@@ -64,13 +65,13 @@ namespace DynamicaLabs.XrmTools.Core
 
         public new void Add(RequestAttribute attribute)
         {
-            if (String.IsNullOrEmpty(attribute.Key)) return;
+            if (IsNullOrEmpty(attribute.Key)) return;
             base.Add(attribute);
         }
 
         public override string ToString()
         {
-            return "{\n" + String.Join(",\n", this.Select(a => $"\"{a.Key}\" : \"{a.Value}\""))  + "\n}";
+            return "{\n" + Join(",\n", this.Select(a => $"\"{a.Key}\" : \"{a.Value}\""))  + "\n}";
         }
     }
 }

@@ -11,7 +11,7 @@ namespace DynamicaLabs.XrmTools.Data.Exceptions
         { }
 
         public EntityException(string message, string operation) 
-            : this(String.Format("Error while {0} of entity: {1}", operation, message))
+            : this($"Error while {operation} of entity: {message}")
         { }
     }
 }

@@ -7,7 +7,7 @@ namespace DynamicaLabs.XrmTools.Construction
     {
         public Guid HandleField(EntityReference field)
         {
-            return field == null ? Guid.Empty : field.Id;
+            return field?.Id ?? Guid.Empty;
         }
 
         public Guid HandleField(EntityReference field, Entity entity)

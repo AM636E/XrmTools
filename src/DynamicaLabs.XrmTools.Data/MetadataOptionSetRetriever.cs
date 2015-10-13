@@ -7,6 +7,9 @@ using Microsoft.Xrm.Sdk.Metadata;
 
 namespace DynamicaLabs.XrmTools.Data
 {
+    /// <summary>
+    /// Retrieves option set from crm metadata.
+    /// </summary>
     public class MetadataOptionSetRetriever : IOptionSetRetriever
     {
         private static readonly Dictionary<string, Dictionary<int, string>> ValuesDictionary =
@@ -22,10 +25,10 @@ namespace DynamicaLabs.XrmTools.Data
         public string GetOptionSetText(string optionSetName, OptionSetValue value, string etn, int def = 0)
         {
             if (string.IsNullOrEmpty(optionSetName))
-                throw new ArgumentNullException("optionSetName");
+                throw new ArgumentNullException(nameof(optionSetName));
 
             if (value == null)
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
 
             if (value.Value == def)
             {

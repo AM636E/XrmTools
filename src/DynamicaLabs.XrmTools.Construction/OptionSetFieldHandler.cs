@@ -6,7 +6,7 @@ namespace DynamicaLabs.XrmTools.Construction
     {
         public int HandleField(OptionSetValue field)
         {
-            return field == null ? 0 : field.Value;
+            return field?.Value ?? 0;
         }
 
         public int HandleField(OptionSetValue field, Entity entity)

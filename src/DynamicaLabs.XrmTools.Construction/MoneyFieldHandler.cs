@@ -6,7 +6,7 @@ namespace DynamicaLabs.XrmTools.Construction
     {
         public decimal HandleField(Money field)
         {
-            return field == null ? 0 : field.Value;
+            return field?.Value ?? 0;
         }
 
         public decimal HandleField(Money field, Entity entity)

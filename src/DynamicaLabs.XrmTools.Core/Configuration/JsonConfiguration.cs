@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using DynamicaLabs.XrmTools.Core.Configuration.Exceptions;
-using Microsoft.Xrm.Sdk.Query;
 using Newtonsoft.Json.Linq;
+using static System.String;
 
 namespace DynamicaLabs.XrmTools.Core.Configuration
 {
@@ -26,11 +25,11 @@ namespace DynamicaLabs.XrmTools.Core.Configuration
 
         public CheckResult CheckRequest(string entityType, string operation, RequestAttributeCollection attributes)
         {
-            var message = String.Empty;
+            var message = Empty;
             // If operation is not allowed for this entity.
             if (_jConfig[entityType] == null || _jConfig[entityType][operation] == null)
             {
-                message = string.Format("Operation {0} is now alowed for entity {1}", operation, entityType);
+                message = $"Operation {operation} is now alowed for entity {entityType}";
                 if (Throw) throw new InvalidRequestException(message);
                 return new CheckResult(CheckResult.CheckStatus.Invalid, message);
             }
@@ -46,7 +45,7 @@ namespace DynamicaLabs.XrmTools.Core.Configuration
             if (diff.Any())
             {
                 // Generate mesage with missing keys.
-                message = string.Format("Fields [{0}] are missing", String.Join(", ", diff));
+                message = $"Fields [{Join(", ", diff)}] are missing";
                 if (Throw) throw new InvalidRequestException(message);
                 return new CheckResult(CheckResult.CheckStatus.Invalid, message);
             }
@@ -60,7 +59,7 @@ namespace DynamicaLabs.XrmTools.Core.Configuration
                 {
                     if (!orField.Intersect(keys).Any())
                     {
-                        message = string.Format("Fields [{0}] are required", String.Join(", ", orField));
+                        message = $"Fields [{Join(", ", orField)}] are required";
                         if (Throw) throw new InvalidRequestException(message);
                         return new CheckResult(CheckResult.CheckStatus.Invalid, message);
                     }
@@ -81,27 +80,12 @@ namespace DynamicaLabs.XrmTools.Core.Configuration
             // ReSharper disable once InvertIf
             if (extra.Any())
             {
-                message = string.Format("Fields [{0}] is not allowed", String.Join(", ", extra));
+                message = $"Fields [{Join(", ", extra)}] is not allowed";
                 if (Throw) throw new InvalidRequestException(message);
                 return new CheckResult(CheckResult.CheckStatus.Valid, message);
             }
 
             return new CheckResult(CheckResult.CheckStatus.Valid, message);
-        }
-
-        public CheckResult CheckRequest(string entityType, RequestAttributeCollection attributes)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool EntityAllowed(string entityType)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ColumnSet GetColumnSet(string entityType)
-        {
-            throw new NotImplementedException();
         }
     }
 }

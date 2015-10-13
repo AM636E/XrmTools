@@ -22,7 +22,6 @@ namespace DynamicaLabs.XrmTools.Data
         private readonly string _password;
         private readonly string _uri;
         private readonly string _userName;
-        public IQueryConverter QueryConverter { get; set; }
 
         public DefaultEntityRepository(IXrmConnectionStringProvider connectionStringProvider,
             IEntityConstructor entityConstructor)

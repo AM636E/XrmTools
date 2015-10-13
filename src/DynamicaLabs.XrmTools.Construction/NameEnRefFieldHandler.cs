@@ -7,7 +7,7 @@ namespace DynamicaLabs.XrmTools.Construction
     {
         public string HandleField(EntityReference field)
         {
-            return field == null ? String.Empty : field.Name;
+            return field == null ? string.Empty : field.Name;
         }
 
         public string HandleField(EntityReference field, Entity entity)

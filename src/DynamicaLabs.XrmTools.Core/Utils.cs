@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
+using static System.String;
 
 namespace DynamicaLabs.XrmTools.Core
 {
@@ -14,7 +15,7 @@ namespace DynamicaLabs.XrmTools.Core
                 return true;
             var s = value as string;
             if (s != null)
-                return String.IsNullOrEmpty(value.ToString());
+                return IsNullOrEmpty(value.ToString());
             if (value is Guid)
                 return (Guid)value == Guid.Empty;
             if (value is DateTime)

@@ -36,5 +36,10 @@ namespace DynamicaLabs.XrmTools.Construction
         {
             throw new System.NotImplementedException();
         }
+
+        public Entity ConstructEntity<TObject>(TObject obj)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

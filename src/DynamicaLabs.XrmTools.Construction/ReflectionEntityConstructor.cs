@@ -49,7 +49,14 @@ namespace DynamicaLabs.XrmTools.Construction
             var nonProps = type.GetProperties().Where(p => !properties.ContainsKey(p));
             foreach (var prop in nonProps)
             {
-                prop.SetValue(result, ConstructObject(entity, prop.PropertyType), null);
+                try
+                {
+                    prop.SetValue(result, ConstructObject(entity, prop.PropertyType), null);
+                }
+                catch (Exception)
+                {
+                    // Silent.
+                }
             }
 
             return result;
@@ -110,9 +117,10 @@ namespace DynamicaLabs.XrmTools.Construction
         public Entity ConstructEntity<TObject>(TObject obj)
         {
             var eType = typeof(TObject);
-            var attr = eType.GetCustomAttribute<CrmEntity>();
-            if (attr == null)
+            var cattr = eType.GetCustomAttributes(false).FirstOrDefault(a => a.GetType() == typeof (CrmEntity));
+            if (cattr == null)
                 throw new ArgumentException("Class must be decorated with CrmEntity Attribute to use with CreateEntity");
+            var attr = (CrmEntity)cattr;
             if (string.IsNullOrEmpty(attr.EntityName))
                 throw new ArgumentException("EntityName of CrmEntity Attribute must not be empty.");
             var crmEntity = new Entity(attr.EntityName)

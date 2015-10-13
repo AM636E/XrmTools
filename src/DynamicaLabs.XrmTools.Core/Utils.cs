@@ -29,7 +29,7 @@ namespace DynamicaLabs.XrmTools.Core
             return false;
         }
 
-        public static QueryExpression ToQueryExpression(string entityName, IDictionary<string, string> attributes, bool strict = true)
+        public static QueryExpression ToQueryExpression(string entityName, IDictionary<string, object> attributes, bool strict = true)
         {
             var query = new QueryExpression(entityName)
             {

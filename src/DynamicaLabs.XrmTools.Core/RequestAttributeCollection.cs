@@ -54,7 +54,8 @@ namespace DynamicaLabs.XrmTools.Core
             {
                 // Skipping id attribute because name of id attribute unique for entity(accountid, contactid).
                 if (a.Key == "id") return;
-                if (excludeEmpty && Utils.IsEmpty(a.Value)) { return; }
+                if (excludeEmpty && Utils.IsEmpty(a.Value)) return;
+                if (attrs.Any(it => it.Key == a.Key)) return;
                 attrs.Add(new KeyValuePair<string, object>(a.Key, a.Value));
             });
 

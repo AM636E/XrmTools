@@ -159,10 +159,10 @@ namespace DynamicaLabs.XrmTools.Data
                 {
                     entity.LogicalName = entityType;
                 }
-
+                var tmp = entity.Id;
                 service.Update(entity);
-                if (entity.Id != Guid.Empty)
-                    entity = service.Retrieve(entityType, entity.Id, new ColumnSet(true));
+
+                entity = service.Retrieve(entityType, tmp, new ColumnSet(true));
                 return entity;
             }
         }
@@ -176,27 +176,25 @@ namespace DynamicaLabs.XrmTools.Data
 
                 proxy.Update(entity);
 
-                return entity;
+                return GetEntityById(entityType, entity.Id);
             }
+        }
+
+        public TObject UpdateEntity<TObject>(TObject tobject)
+        {
+            var entity = _entityConstructor.ConstructEntity(tobject);
+            return _entityConstructor.ConstructObject<TObject>(UpdateEntity(entity.LogicalName, entity));
+        }
+
+        public TObject UpdateEntity<TObject>(TObject tobject, Guid userId)
+        {
+            var entity = _entityConstructor.ConstructEntity(tobject);
+            return _entityConstructor.ConstructObject<TObject>(UpdateEntity(entity.LogicalName, entity, userId));
         }
 
         private Entity GUtil<TObject>(TObject entity)
         {
-            var eType = typeof(TObject);
-            var attr = eType.GetFirstOrDefaultCustomAttribute<Construction.Attributes.CrmEntity>();
-            if (attr == null)
-                throw new ArgumentException("Class must be decorated with CrmEntity Attribute to use with CreateEntity");
-            if (string.IsNullOrEmpty(attr.EntityName))
-                throw new ArgumentException("EntityName of CrmEntity Attribute must not be empty.");
-            var crmEntity = new Entity(attr.EntityName)
-            {
-                Attributes = _entityConstructor.CreateAttributeCollection(entity).ToEntityAttributeCollection()
-            };
-            if (crmEntity.Contains($"{attr.EntityName}id"))
-            {
-                crmEntity.Attributes.Remove(crmEntity.Attributes.FirstOrDefault(a => a.Key == $"{attr.EntityName}id"));
-            }
-            return crmEntity;
+            return _entityConstructor.ConstructEntity(entity);
         }
 
         public TObject CreateEntity<TObject>(TObject entity)
@@ -223,6 +221,8 @@ namespace DynamicaLabs.XrmTools.Data
                 return proxy.Retrieve(entityType, e, new ColumnSet(true));
             }
         }
+
+
 
         public virtual Entity CreateEntity(string entityType, Entity entity)
         {
@@ -283,9 +283,32 @@ namespace DynamicaLabs.XrmTools.Data
             }
         }
 
-        public IEnumerable<TEntity> QueryByAttributes<TEntity>(string entityName, IDictionary<string, string> attributes, bool onlyActive = true, bool strict = true)
+        public IEnumerable<Entity> QueryByAttributes(string entityName, IDictionary<string, object> attributes, bool onlyActive = true, bool strict = true)
         {
-            var expr =Utils.ToQueryExpression(entityName, attributes, strict);
+            var expr = Utils.ToQueryExpression(entityName, attributes, strict);
+            expr.ColumnSet = new ColumnSet(true);
+            if (onlyActive)
+            {
+                expr.Criteria.AddCondition(new ConditionExpression("statecode", ConditionOperator.Equal, 0));
+            }
+            return GetEntities(entityName, expr);
+        }
+
+        public IEnumerable<Entity> QueryByAttributes(string entityName, IDictionary<string, object> attributes, Guid userId, bool onlyActive = true,
+            bool strict = true)
+        {
+            var expr = Utils.ToQueryExpression(entityName, attributes, strict);
+            expr.ColumnSet = new ColumnSet(true);
+            if (onlyActive)
+            {
+                expr.Criteria.AddCondition(new ConditionExpression("statecode", ConditionOperator.Equal, 0));
+            }
+            return GetAccessableEntities(expr, userId);
+        }
+
+        public IEnumerable<TEntity> QueryByAttributes<TEntity>(string entityName, IDictionary<string, object> attributes, bool onlyActive = true, bool strict = true)
+        {
+            var expr = Utils.ToQueryExpression(entityName, attributes, strict);
             if (onlyActive)
             {
                 expr.Criteria.AddCondition(new ConditionExpression("statecode", ConditionOperator.Equal, 0));
@@ -293,7 +316,7 @@ namespace DynamicaLabs.XrmTools.Data
             return GetEntities<TEntity>(expr);
         }
 
-        public IEnumerable<TEntity> QueryByAttributes<TEntity>(string entityName, IDictionary<string, string> attributes, Guid userid, bool onlyActive = true, bool strict = true)
+        public IEnumerable<TEntity> QueryByAttributes<TEntity>(string entityName, IDictionary<string, object> attributes, Guid userid, bool onlyActive = true, bool strict = true)
         {
             var expr = Utils.ToQueryExpression(entityName, attributes, strict);
             if (onlyActive)

@@ -12,6 +12,7 @@ namespace DynamicaLabs.XrmTools.Data
     /// </summary>
     public interface IEntityRepository
     {
+        int Limit { get; set; }
         /// <summary>
         ///     Get entities all entitites with given columnset.
         /// </summary>

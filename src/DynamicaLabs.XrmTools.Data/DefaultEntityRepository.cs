@@ -91,9 +91,19 @@ namespace DynamicaLabs.XrmTools.Data
             using (var service = CreateOrganizationService())
             {
                 var columnset = _entityConstructor.CreateColumnSet<T>();
+                var isQe = false;
                 // ReSharper disable CanBeReplacedWithTryCastAndCheckForNull
-                if (query is QueryExpression) ((QueryExpression) query).ColumnSet = columnset;
-                else if (query is QueryByAttribute) ((QueryByAttribute) query).ColumnSet = columnset;
+                if (query is QueryExpression)
+                {
+                    isQe = true;
+                    ((QueryExpression)query).ColumnSet = columnset;
+                }
+                else if (query is QueryByAttribute) { ((QueryByAttribute)query).ColumnSet = columnset; }
+                if (Limit > 0)
+                {
+                    if (isQe) ((QueryExpression)query).TopCount = Limit;
+                    else ((QueryByAttribute)query).TopCount = Limit;
+                }
                 // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
                 var entities = service.RetrieveMultiple(query).Entities;
 
@@ -108,8 +118,19 @@ namespace DynamicaLabs.XrmTools.Data
                 service.CallerId = userGuid;
                 var columnset = _entityConstructor.CreateColumnSet<T>();
                 // ReSharper disable CanBeReplacedWithTryCastAndCheckForNull
-                if (query is QueryExpression) ((QueryExpression) query).ColumnSet = columnset;
-                else if (query is QueryByAttribute) ((QueryByAttribute) query).ColumnSet = columnset;
+                var isQe = false;
+                // ReSharper disable CanBeReplacedWithTryCastAndCheckForNull
+                if (query is QueryExpression)
+                {
+                    isQe = true;
+                    ((QueryExpression)query).ColumnSet = columnset;
+                }
+                else if (query is QueryByAttribute) { ((QueryByAttribute)query).ColumnSet = columnset; }
+                if (Limit > 0)
+                {
+                    if (isQe) ((QueryExpression)query).TopCount = Limit;
+                    else ((QueryByAttribute)query).TopCount = Limit;
+                }
                 // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
                 var entities = service.RetrieveMultiple(query).Entities;
 
@@ -117,15 +138,20 @@ namespace DynamicaLabs.XrmTools.Data
             }
         }
 
+        public int Limit { get; set; }
+
         public IEnumerable<Entity> GetEntities(string entityType, ColumnSet columnSet)
         {
-            return GetEntities(entityType, new QueryExpression(entityType) {ColumnSet = columnSet});
+            return GetEntities(entityType, new QueryExpression(entityType) { ColumnSet = columnSet });
         }
 
         public IEnumerable<Entity> GetEntities(string entityType, QueryBase query)
         {
             using (var service = CreateOrganizationService())
             {
+                // ReSharper disable CanBeReplacedWithTryCastAndCheckForNull
+                if (query is QueryExpression) { ((QueryExpression)query).TopCount = Limit; }
+                else if (query is QueryByAttribute) { ((QueryByAttribute)query).TopCount = Limit; }
                 return service.RetrieveMultiple(query).Entities;
             }
         }
@@ -140,7 +166,8 @@ namespace DynamicaLabs.XrmTools.Data
             using (var proxy = CreateProxy())
             {
                 proxy.CallerId = Guid.Parse(userId);
-                var query = new QueryExpression(entityType) {ColumnSet = columnSet};
+                var query = new QueryExpression(entityType) { ColumnSet = columnSet};
+                if (Limit > 0) query.TopCount = Limit;
                 // Retrieve only active entities.
                 if (entityType != "systemuser")
                 {

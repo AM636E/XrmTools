@@ -25,7 +25,6 @@
         "System.Runtime.Serialization": "4.0.0.0"
       }
     },
-    "dnx451": { },
-    "dnx46": { }
+    "dnx451": { }
   }
 }

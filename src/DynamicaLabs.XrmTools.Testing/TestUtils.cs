@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using DynamicaLabs.XrmTools.Construction;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
@@ -16,12 +17,14 @@ namespace DynamicaLabs.XrmTools.Testing
         /// <typeparam name="TObject">Type of object being compared</typeparam>
         /// <param name="obj">Object to check.</param>
         /// <param name="entity">Entity to check with</param>
+        /// <param name="excluded"></param>
         /// <param name="strict">If true checks if entity contains all fields that in object.</param>
-        public static void AssertEqual<TObject>(TObject obj, Entity entity, bool strict = false)
+        public static void AssertEqual<TObject>(TObject obj, Entity entity, string[] excluded = null, bool strict = false)
         {
-            var props = ReflectionEntityConstructor.GetTypeProperties(typeof (TObject));
+            var props = ReflectionEntityConstructor.GetTypeProperties(typeof(TObject));
             foreach (var prop in props)
             {
+                if(excluded != null && excluded.Contains(prop.Value.CrmName)) continue;
                 var c = entity.Contains(prop.Value.CrmName);
                 if (!c && strict)
                     throw new AssertException($"Assertion failed. Field {prop.Value.CrmName} doesn't present on entity.");
@@ -42,16 +45,17 @@ namespace DynamicaLabs.XrmTools.Testing
         }
 
         /// <summary>
-        ///     Retrieves entity from Crm and executes <see cref="AssertEqual{TObject}(TObject,Microsoft.Xrm.Sdk.Entity,bool)" />
+        ///     Retrieves entity from Crm and executes <see cref="AssertEqual{TObject}(TObject, Microsoft.Xrm.Sdk.Entity, string[], bool)" />
         /// </summary>
         /// <typeparam name="TObject"></typeparam>
         /// <param name="obj"></param>
         /// <param name="entityType"></param>
         /// <param name="entityGuid"></param>
+        /// <param name="excluded"></param>
         /// <param name="strict"></param>
-        public static void AssertEqual<TObject>(TObject obj, string entityType, Guid entityGuid, bool strict = false)
+        public static void AssertEqual<TObject>(TObject obj, string entityType, Guid entityGuid, string[] excluded = null, bool strict = false)
         {
-            AssertEqual(obj, OrganizationService.Retrieve(entityType, entityGuid, new ColumnSet(true)), strict);
+            AssertEqual(obj, OrganizationService.Retrieve(entityType, entityGuid, new ColumnSet(true)), excluded, strict);
         }
     }
 }

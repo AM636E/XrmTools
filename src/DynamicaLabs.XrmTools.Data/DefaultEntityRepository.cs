@@ -150,8 +150,8 @@ namespace DynamicaLabs.XrmTools.Data
             using (var service = CreateOrganizationService())
             {
                 // ReSharper disable CanBeReplacedWithTryCastAndCheckForNull
-                if (query is QueryExpression) { ((QueryExpression)query).TopCount = Limit; }
-                else if (query is QueryByAttribute) { ((QueryByAttribute)query).TopCount = Limit; }
+                if (query is QueryExpression && Limit > 0) { ((QueryExpression)query).TopCount = Limit; }
+                else if (query is QueryByAttribute && Limit > 0) { ((QueryByAttribute)query).TopCount = Limit; }
                 return service.RetrieveMultiple(query).Entities;
             }
         }

@@ -15,35 +15,38 @@ namespace DynamicaLabs.XrmTools.Construction
         public object ConstructObject(Entity entity, Type objectType)
         {
             var type = objectType;
-            var properties = GetTypeProperties(type);
+            var properties = GetTypePropertiesMultiple(type);
             var result = Activator.CreateInstance(objectType);
 
             foreach (var pair in properties)
             {
                 var prop = pair.Key;
-                var attr = pair.Value;
-                try
+                var attrs = pair.Value;
+                foreach (var attr in attrs)
                 {
-                    // Skip if entity does not contains field.
-                    if (!entity.Contains(attr.CrmName)) continue;
+                    try
+                    {
+                        // Skip if entity does not contains field.
+                        if (!entity.Contains(attr.CrmName)) continue;
 
-                    var value = entity[attr.CrmName];
-                    // Execute handler if present.
-                    if (attr.FieldHandler != null && value != null)
-                    {
-                        value = ExecuteFieldHandler(entity, attr, value);
+                        var value = entity[attr.CrmName];
+                        // Execute handler if present.
+                        if (attr.FieldHandler != null && value != null)
+                        {
+                            value = ExecuteFieldHandler(entity, attr, value);
+                        }
+                        // Call parse method if types does not match.
+                        if (value != null && value.GetType() != prop.PropertyType)
+                        {
+                            value = ParseValue(prop, value);
+                        }
+                        prop.SetValue(result, value, null);
                     }
-                    // Call parse method if types does not match.
-                    if (value != null && value.GetType() != prop.PropertyType)
+                    catch (Exception ex)
                     {
-                        value = ParseValue(prop, value);
+                        throw new ConstructionException(
+                            $"Failed to set value. Property {prop.Name}. Attribute {attr.CrmName}. Message: {ex.Message}");
                     }
-                    prop.SetValue(result, value, null);
-                }
-                catch (Exception ex)
-                {
-                    throw new ConstructionException(
-                        $"Failed to set value. Property {prop.Name}. Attribute {attr.CrmName}. Message: {ex.Message}");
                 }
             }
 
@@ -63,9 +66,19 @@ namespace DynamicaLabs.XrmTools.Construction
             return result;
         }
 
+        private static Dictionary<PropertyInfo, CrmField[]> GetTypePropertiesMultiple(Type type)
+        {
+            return type
+                .GetProperties()
+                .ToDictionary(p => p,
+                    p => p.GetCustomAttributes(typeof (CrmField), false).Select(a => (CrmField) a).ToArray())
+                .Where(p => p.Value.Any())
+                .ToDictionary(p => p.Key, p => p.Value);
+        }
+
         public TObject ConstructObject<TObject>(Entity entity)
         {
-            return (TObject) ConstructObject(entity, typeof (TObject));
+            return (TObject)ConstructObject(entity, typeof(TObject));
         }
 
         public ColumnSet CreateColumnSet<TObject>()
@@ -73,10 +86,10 @@ namespace DynamicaLabs.XrmTools.Construction
             var result = new ColumnSet();
 
             result.AddColumns(
-                typeof (TObject).GetProperties()
-                    .Select(p => p.GetCustomAttributes(typeof (CrmField), false).FirstOrDefault())
+                typeof(TObject).GetProperties()
+                    .Select(p => p.GetCustomAttributes(typeof(CrmField), false).FirstOrDefault())
                     .Where(a => a != null)
-                    .Select(p => (CrmField) p)
+                    .Select(p => (CrmField)p)
                     .Select(p => p.CrmName)
                     .ToArray());
 
@@ -86,7 +99,7 @@ namespace DynamicaLabs.XrmTools.Construction
         public RequestAttributeCollection CreateAttributeCollection<TObject>(TObject obj, bool excludeEmpty = false)
         {
             var result = new RequestAttributeCollection();
-            var properties = GetTypeProperties(typeof (TObject));
+            var properties = GetTypeProperties(typeof(TObject));
             foreach (var pair in properties)
             {
                 var prop = pair.Key;
@@ -101,11 +114,11 @@ namespace DynamicaLabs.XrmTools.Construction
 
         public Entity ConstructEntity<TObject>(TObject obj)
         {
-            var eType = typeof (TObject);
-            var cattr = eType.GetCustomAttributes(false).FirstOrDefault(a => a.GetType() == typeof (CrmEntity));
+            var eType = typeof(TObject);
+            var cattr = eType.GetCustomAttributes(false).FirstOrDefault(a => a.GetType() == typeof(CrmEntity));
             if (cattr == null)
                 throw new ArgumentException("Class must be decorated with CrmEntity Attribute to use with CreateEntity");
-            var attr = (CrmEntity) cattr;
+            var attr = (CrmEntity)cattr;
             if (string.IsNullOrEmpty(attr.EntityName))
                 throw new ArgumentException("EntityName of CrmEntity Attribute must not be empty.");
             var crmEntity = new Entity(attr.EntityName)
@@ -137,12 +150,23 @@ namespace DynamicaLabs.XrmTools.Construction
 
         public static Dictionary<PropertyInfo, CrmField> GetTypeProperties(Type type)
         {
-            return type
+            var dic = type
                 .GetProperties()
-                .ToDictionary(p => p, p => p.GetCustomAttributes(typeof (CrmField), false).FirstOrDefault())
-                // Attribute of type CrmField exists on property.
-                .Where(kv => kv.Value != null)
-                .ToDictionary(k => k.Key, v => (CrmField) v.Value);
+                // Select only main attribute.
+                .ToDictionary(p => p, p => p.GetCustomAttributes(typeof(CrmField), false).Select(a => (CrmField)a));
+            var result = new Dictionary<PropertyInfo, CrmField>();
+            foreach (var item in dic)
+            {
+                if (item.Value.Count() > 1)
+                {
+                    result.Add(item.Key, item.Value.First(a => a.Main));
+                }
+                else if (item.Value.Count() == 1)
+                {
+                    result.Add(item.Key, item.Value.First());
+                }
+            }
+            return result;
         }
 
         public static object ExecuteFieldHandler(Entity entity, CrmField attr, object value)
@@ -155,16 +179,16 @@ namespace DynamicaLabs.XrmTools.Construction
                 method =
                     attr
                         .FieldHandler
-                        .GetMethod("HandleField", new[] {value.GetType(), typeof (Entity)});
-                arguments = new[] {value, entity};
+                        .GetMethod("HandleField", new[] { value.GetType(), typeof(Entity) });
+                arguments = new[] { value, entity };
             }
             else
             {
                 method =
                     attr
                         .FieldHandler
-                        .GetMethod("HandleField", new[] {value.GetType()});
-                arguments = new[] {value};
+                        .GetMethod("HandleField", new[] { value.GetType() });
+                arguments = new[] { value };
             }
 
             var cvalue = value;
@@ -182,15 +206,15 @@ namespace DynamicaLabs.XrmTools.Construction
 
         private static object ParseValue(PropertyInfo prop, object value)
         {
-            if (prop.PropertyType == typeof (EntityReference))
+            if (prop.PropertyType == typeof(EntityReference))
             {
                 value = HandleEntityReferenceField(value);
             }
-            else if (prop.PropertyType == typeof (Money))
+            else if (prop.PropertyType == typeof(Money))
             {
                 value = HandleMoneyField(value);
             }
-            else if (prop.PropertyType == typeof (OptionSetValue))
+            else if (prop.PropertyType == typeof(OptionSetValue))
             {
                 value = HandleOptionSetField(value);
             }
@@ -199,9 +223,9 @@ namespace DynamicaLabs.XrmTools.Construction
                 var meth =
                     prop
                         .PropertyType
-                        .GetMethod("Parse", new[] {typeof (string)});
+                        .GetMethod("Parse", new[] { typeof(string) });
                 if (meth != null)
-                    value = meth.Invoke(null, new object[] {value.ToString()});
+                    value = meth.Invoke(null, new object[] { value.ToString() });
             }
             return value;
         }

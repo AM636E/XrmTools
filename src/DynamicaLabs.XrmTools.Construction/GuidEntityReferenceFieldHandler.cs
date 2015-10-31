@@ -3,6 +3,10 @@ using Microsoft.Xrm.Sdk;
 
 namespace DynamicaLabs.XrmTools.Construction
 {
+    /// <summary>
+    /// Retrieves guid from EntityReference.
+    /// Guid.Empty if null.
+    /// </summary>
     public class GuidEntityReferenceFieldHandler : IFieldHandler<EntityReference, Guid>
     {
         public Guid HandleField(EntityReference field)

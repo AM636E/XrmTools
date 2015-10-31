@@ -11,11 +11,45 @@ namespace DynamicaLabs.XrmTools.Tests
 {
     public class ReflectionEntityConstructorTests
     {
+        private readonly ReflectionEntityConstructor _constructor;
+
+        public ReflectionEntityConstructorTests()
+        {
+            _constructor = new ReflectionEntityConstructor();
+        }
+        [Fact]
+        public void MultipleFields()
+        {
+            var e1 = new Entity("")
+            {
+                Attributes =
+                {
+                    new KeyValuePair<string, object>("productid", Guid.NewGuid()),
+                    new KeyValuePair<string, object>("productname", "Test")
+                }
+            };
+            var e2 = new Entity("")
+            {
+                Attributes =
+                {
+                    new KeyValuePair<string, object>("dnl_productid", Guid.NewGuid()),
+                    new KeyValuePair<string, object>("dnl_productname", "Test")
+                }
+            };
+
+
+            var o1 = _constructor.ConstructObject<TestModelMultiple>(e1);
+            var o2 = _constructor.ConstructObject<TestModelMultiple>(e2);
+
+            TestUtils.AssertEqual(o1, e1);
+            TestUtils.AssertEqual(o2, e2);
+        }
+
+
         [Fact]
         public void CreateColumnSet()
         {
-            var constructor = new ReflectionEntityConstructor();
-            var columnSet = constructor.CreateColumnSet<TestModel>();
+            var columnSet = _constructor.CreateColumnSet<TestModel>();
 
             var expectedColumnSet = new ColumnSet("crmid", "name", "surname");
             foreach (var column in expectedColumnSet.Columns)
@@ -39,8 +73,8 @@ namespace DynamicaLabs.XrmTools.Tests
                     new KeyValuePair<string, object>("optionset", new OptionSetValue(100))
                 }
             };
-            var constructor = new ReflectionEntityConstructor();
-            var obj = constructor.ConstructObject<TestModel>(entity);
+            
+            var obj = _constructor.ConstructObject<TestModel>(entity);
             TestUtils.AssertEqual(obj, entity);
             TestUtils.AssertEqual(obj.TestClass, entity);
             TestUtils.AssertEqual(obj.Item, entity);
@@ -56,8 +90,8 @@ namespace DynamicaLabs.XrmTools.Tests
                     new KeyValuePair<string, object>("entityreference", null)
                 }
             };
-            var constructor = new ReflectionEntityConstructor();
-            var obj = constructor.ConstructObject<TestModel>(entity);
+            
+            var obj = _constructor.ConstructObject<TestModel>(entity);
             Assert.Equal(Guid.Empty, obj.EntityReferenceField);
         }
 
@@ -71,8 +105,8 @@ namespace DynamicaLabs.XrmTools.Tests
                     new KeyValuePair<string, object>("optionset", null)
                 }
             };
-            var constructor = new ReflectionEntityConstructor();
-            var obj = constructor.ConstructObject<TestModel>(entity);
+            
+            var obj = _constructor.ConstructObject<TestModel>(entity);
             Assert.Equal(0, obj.OptionSetField);
         }
 
@@ -85,8 +119,8 @@ namespace DynamicaLabs.XrmTools.Tests
                 Surname = "Shumway",
                 Name = "Gordon"
             };
-            var constructor = new ReflectionEntityConstructor();
-            var attributes = constructor.CreateAttributeCollection(obj);
+            
+            var attributes = _constructor.CreateAttributeCollection(obj);
             Assert.Equal(obj.Id, attributes["crmid"]);
             Assert.Equal(obj.Surname, attributes["surname"]);
             Assert.Equal(obj.Name, attributes["name"]);
@@ -107,7 +141,7 @@ namespace DynamicaLabs.XrmTools.Tests
                     new KeyValuePair<string, object>("optionset", new OptionSetValue(100))
                 }
             };
-            var test = new ReflectionEntityConstructor().ConstructObject<TestModel>(entity);
+            var test = _constructor.ConstructObject<TestModel>(entity);
 
             Assert.NotNull(test.VerySpecificProp);
             foreach (var val in entity.Attributes.Select(a => a.Value))
@@ -131,9 +165,9 @@ namespace DynamicaLabs.XrmTools.Tests
                     new KeyValuePair<string, object>("optionset", new OptionSetValue(100))
                 }
             };
-            var constructor = new ReflectionEntityConstructor();
-            var test = constructor.ConstructObject<TestModel>(entity);
-            var entity1 = constructor.ConstructEntity(test);
+            
+            var test = _constructor.ConstructObject<TestModel>(entity);
+            var entity1 = _constructor.ConstructEntity(test);
             TestUtils.AssertEqual(test, entity1);
         }
     }

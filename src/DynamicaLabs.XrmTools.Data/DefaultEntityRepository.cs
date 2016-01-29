@@ -17,6 +17,7 @@ namespace DynamicaLabs.XrmTools.Data
 {
     public class DefaultEntityRepository : IEntityRepository
     {
+        private readonly OrganizationService _service;
         private readonly string _connectionString;
         private readonly IEntityConstructor _entityConstructor;
         private readonly string _password;
@@ -31,6 +32,12 @@ namespace DynamicaLabs.XrmTools.Data
             _userName = connectionStringProvider.GetUsername();
             _password = connectionStringProvider.GetPassword();
             _connectionString = $"Url={_uri}; Username={_userName}; Password={_password}";
+        }
+
+        public DefaultEntityRepository(OrganizationService service, IEntityConstructor entityConstructor)
+        {
+            _service = service;
+            _entityConstructor = entityConstructor;
         }
 
         public IEnumerable<Entity> GetAccessableEntities(QueryBase query, Guid userId)
@@ -358,7 +365,7 @@ namespace DynamicaLabs.XrmTools.Data
 
         protected OrganizationService CreateOrganizationService()
         {
-            return new OrganizationService(CrmConnection.Parse(_connectionString));
+            return _service ?? new OrganizationService(CrmConnection.Parse(_connectionString));
         }
 
         protected OrganizationServiceProxy CreateProxy()

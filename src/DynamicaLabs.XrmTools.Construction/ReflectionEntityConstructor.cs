@@ -49,8 +49,8 @@ namespace DynamicaLabs.XrmTools.Construction
                     }
                 }
             }
-
-            var nonProps = type.GetProperties().Where(p => !properties.ContainsKey(p));
+            // Exclude CLR types because it causes infinite recursion.
+            var nonProps = type.GetProperties().Where(p => !properties.ContainsKey(p) && (!p.PropertyType?.Namespace?.Contains("System") ?? false));
             foreach (var prop in nonProps)
             {
                 try
@@ -59,7 +59,7 @@ namespace DynamicaLabs.XrmTools.Construction
                 }
                 catch (Exception)
                 {
-                    // Silent.
+                    // return result;
                 }
             }
 
@@ -71,7 +71,7 @@ namespace DynamicaLabs.XrmTools.Construction
             return type
                 .GetProperties()
                 .ToDictionary(p => p,
-                    p => p.GetCustomAttributes(typeof (CrmField), false).Select(a => (CrmField) a).ToArray())
+                    p => p.GetCustomAttributes(typeof(CrmField), false).Select(a => (CrmField)a).ToArray())
                 .Where(p => p.Value.Any())
                 .ToDictionary(p => p.Key, p => p.Value);
         }

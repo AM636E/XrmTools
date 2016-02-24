@@ -33,13 +33,7 @@ namespace DynamicaLabs.XrmTools.Data
             _password = connectionStringProvider.GetPassword();
             _connectionString = $"Url={_uri}; Username={_userName}; Password={_password}";
         }
-
-        public DefaultEntityRepository(OrganizationService service, IEntityConstructor entityConstructor)
-        {
-            _service = service;
-            _entityConstructor = entityConstructor;
-        }
-
+        
         public IEnumerable<Entity> GetAccessableEntities(QueryBase query, Guid userId)
         {
             using (var proxy = CreateProxy())

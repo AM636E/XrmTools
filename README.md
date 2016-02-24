@@ -8,6 +8,7 @@ Such as :
 * Manipulating entities
 * Entity to Model object mapping.
 * Logging and exception handling for WebApi.
+* Testing
 
 ### Examples
 Suppose you have this class in your code.

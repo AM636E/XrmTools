@@ -12,7 +12,7 @@ Such as :
 
 ### Examples
 Suppose you have this class in your code.
-```
+```csharp
 // Map crm entity with model entity.
 [CrmEntity("account")]
 class Account 
@@ -34,7 +34,7 @@ class Account
 }
 ```
 To retrieve a list of crm accounts and map them to this entity we need to do this:
-```
+```csharp
 // Setting up the repository.
 IEntityRepository er = new DefaultEntityRepository(new ConfigXrmConnectionStringProvider(connectionSettings), new ReflectionEntityConstructory());
 
@@ -46,7 +46,7 @@ foreach(var account in accounts) {
 }
 ```
 To retrieve an antities based on some simple criteria
-```
+```csharp
 var accounts = er.QueryByAttributes<Account>("account", 
 new Dictionary<string, object>
 {

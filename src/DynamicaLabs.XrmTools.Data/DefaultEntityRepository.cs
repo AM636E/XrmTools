@@ -17,12 +17,14 @@ namespace DynamicaLabs.XrmTools.Data
 {
     public class DefaultEntityRepository : IEntityRepository
     {
-        private readonly OrganizationService _service;
+        private OrganizationService _service;
         private readonly string _connectionString;
-        private readonly IEntityConstructor _entityConstructor;
+        private IEntityConstructor _entityConstructor;
         private readonly string _password;
         private readonly string _uri;
         private readonly string _userName;
+
+        public DefaultEntityRepository() { }
 
         public DefaultEntityRepository(IXrmConnectionStringProvider connectionStringProvider,
             IEntityConstructor entityConstructor)
@@ -376,6 +378,16 @@ namespace DynamicaLabs.XrmTools.Data
         public IOrganizationService GetOrganizationService()
         {
             return CreateOrganizationService();
+        }
+
+        public static DefaultEntityRepository FromOrganizationService(OrganizationService service,
+            IEntityConstructor constructor)
+        {
+            return new DefaultEntityRepository
+            {
+                _service = service,
+                _entityConstructor = constructor
+            };
         }
     }
 }

@@ -1,6 +1,6 @@
 ## XrmTools
 
-XrmTools simplifies most commom tasks that developer performs why building Web apis with Dynamics Crm backend.
+XrmTools simplifies most commom tasks that developer performs when building Web apis with Dynamics Crm backend.
 Such as :
 * Creating an organization service ( with of without impersonation )
 * Executing queries ( with ColumnSet generated automatically based on mapping )

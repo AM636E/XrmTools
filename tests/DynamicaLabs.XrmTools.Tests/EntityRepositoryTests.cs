@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using DynamicaLabs.XrmTools.Construction;
-using DynamicaLabs.XrmTools.Construction.Attributes;
 using DynamicaLabs.XrmTools.Data;
-using Microsoft.Xrm.Client;
-using Microsoft.Xrm.Client.Services;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using Moq;
@@ -12,42 +9,6 @@ using Xunit;
 
 namespace DynamicaLabs.XrmTools.Tests
 {
-    [Construction.Attributes.CrmEntity("account")]
-    public class Account
-    {
-        [CrmField("name")]
-        public string Name { get; set; }
-    }
-
-    public static class Mocked
-    {
-        public static IOrganizationService MockedService()
-        {
-            return Mock.Of<IOrganizationService>(it => true);
-        }
-    }
-
-    public class OrganizationServiceAdapter : OrganizationService
-    {
-        public OrganizationServiceAdapter() : base(Mocked.MockedService())
-        {
-
-        }
-
-        public OrganizationServiceAdapter(string connectionStringName) : base(connectionStringName)
-        {
-        }
-
-        public OrganizationServiceAdapter(CrmConnection connection) : base(connection)
-        {
-        }
-
-        public OrganizationServiceAdapter(IOrganizationService service) : base(service)
-        {
-        }
-    }
-
-
     public class EntityRepositoryTests
     {
         private static readonly EntityCollection Ents = new EntityCollection(new List<Entity>

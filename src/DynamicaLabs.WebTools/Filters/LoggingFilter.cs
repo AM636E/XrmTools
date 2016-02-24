@@ -41,7 +41,7 @@ namespace DynamicaLabs.WebTools.Filters
         public Task ExecuteExceptionFilterAsync(HttpActionExecutedContext actionExecutedContext,
             CancellationToken cancellationToken)
         {
-            Logger.Error(Join("${newline}\r\n", _logGenerator.GenerateLogMessage(actionExecutedContext)));
+            Logger.Error(Join("\r\n", _logGenerator.GenerateLogMessage(actionExecutedContext)));
 
             var task = new Task<HttpResponseMessage>(() =>
             {

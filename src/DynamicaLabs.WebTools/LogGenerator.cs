@@ -12,6 +12,7 @@ namespace DynamicaLabs.WebTools
         private static readonly List<Func<HttpActionExecutedContext, string>> AdditionalStrings = new List
             <Func<HttpActionExecutedContext, string>>
         {
+            context => context?.Request?.Method?.Method + " " + context?.Request?.RequestUri,
             // Exception type, place and message.
             context =>
                 $"\r\n{context.Exception.GetType().FullName} in {context.ActionContext.ControllerContext.Controller} : {context.Exception.Message}",
@@ -36,11 +37,20 @@ namespace DynamicaLabs.WebTools
         }
 
         public LogGenerator(Func<HttpActionExecutedContext, string> additionString) :
-            this(new List<Func<HttpActionExecutedContext, string>> {additionString})
-        {
-        }
+            this(new List<Func<HttpActionExecutedContext, string>> { additionString })
+        { }
 
         public string GenerateLogMessage(HttpActionExecutedContext actionExecutedContext)
             => Join("\n", AdditionalStrings.Select(a => a(actionExecutedContext)));
+
+        public void AddFirst(Func<HttpActionExecutedContext, string> func)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddLast(Func<HttpActionExecutedContext, string> func)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

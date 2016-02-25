@@ -1,5 +1,5 @@
 ## XrmTools
-
+[![Build Status](https://travis-ci.org/AM636E/XrmTools.svg?branch=master)](https://travis-ci.org/AM636E/XrmTools)
 ### Tools for simplifying Microsoft Dynamics Crm api buiding.
 XrmTools simplifies most commom tasks that developer performs why building Web apis with Dynamics Crm backend.
 Such as :

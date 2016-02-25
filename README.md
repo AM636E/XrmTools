@@ -1,13 +1,14 @@
 ## XrmTools
 
-XrmTools simplifies most commom tasks that developer performs when building Web apis with Dynamics Crm backend.
+### Tools for simplifying Microsoft Dynamics Crm api buiding.
+XrmTools simplifies most commom tasks that developer performs why building Web apis with Dynamics Crm backend.
 Such as :
 * Creating an organization service ( with of without impersonation )
 * Executing queries ( with ColumnSet generated automatically based on mapping )
 * Manipulating entities
 * Entity to Model object mapping.
 * Logging and exception handling for WebApi.
-* Testing
+### Setting up
 
 ### Examples
 Suppose you have this class in your code.
@@ -35,7 +36,7 @@ class Account
 To retrieve a list of crm accounts and map them to this entity we need to do this:
 ```csharp
 // Setting up the repository.
-IEntityRepository er = new DefaultEntityRepository(new ConfigXrmConnectionStringProvider(connectionSettings), new ReflectionEntityConstructor());
+IEntityRepository er = new DefaultEntityRepository(new ConfigXrmConnectionStringProvider(connectionSettings), new ReflectionEntityConstructory());
 
 // accounts will have IEnumerable<Account> type.
 var accounts = er.GetEntities<Account>(new QueryExpression("account"));
@@ -54,8 +55,14 @@ new Dictionary<string, object>
 ```
 
 To create crm entity from model entity
-```
+```csharp
 var acc = new Account { "Name" = "dnl" };
 var created = acc.Create(acc);
 Console.WriteLine(created.Id);
+```
+If you created an entity in crm and want to check if all fields are properly mapped
+```csharp
+var account = new Account{"Name" = "valia"};
+account.Id = er.Create(account).Id;
+TestUtils.AssertEqual(account, "account", account.Id);
 ```

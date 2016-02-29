@@ -1,6 +1,6 @@
 ## XrmTools
 
-### Tools for simplifying Microsoft Dynamics Crm api buiding.
+### Tools for simplifying Microsoft Dynamics CRM api buiding.
 XrmTools simplifies most commom tasks that developer performs why building Web apis with Dynamics Crm backend.
 Such as :
 * Creating an organization service ( with of without impersonation )

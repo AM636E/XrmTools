@@ -1,3 +1,7 @@
 version: 1.0.{build}
 before_build:
 - cmd: dnu restore
+test_script:
+- cmd: dnx -p tests\DynamicaLabs.XrmTools.Tests test
+build:
+  verbosity: normal

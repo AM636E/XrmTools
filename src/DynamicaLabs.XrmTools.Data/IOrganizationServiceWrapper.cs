@@ -10,7 +10,7 @@ namespace DynamicaLabs.XrmTools.Data
     ///     Exposes methods for common entity operations:
     ///     Retrieve by id, by query, generic retrieve with or without impersonation.
     /// </summary>
-    public interface IEntityRepository
+    public interface IOrganizationServiceWrapper
     {
         int Limit { get; set; }
         /// <summary>

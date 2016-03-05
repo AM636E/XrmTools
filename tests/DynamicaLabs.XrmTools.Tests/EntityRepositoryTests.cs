@@ -19,13 +19,13 @@ namespace DynamicaLabs.XrmTools.Tests
                 new Entity("account") { ["name"] = "test4" },
             });
 
-        private readonly DefaultEntityRepository _repo;
+        private readonly DefaultOrganizationServiceWrapper _repo;
 
         public EntityRepositoryTests()
         {
             var s = new Mock<OrganizationServiceAdapter>();
             s.Setup(it => it.RetrieveMultiple(It.IsAny<QueryBase>())).Returns(Ents);
-            _repo = DefaultEntityRepository.FromOrganizationService(s.Object, new ReflectionEntityConstructor());
+            _repo = DefaultOrganizationServiceWrapper.FromOrganizationService(s.Object, new ReflectionEntityConstructor());
         }
 
         [Fact]

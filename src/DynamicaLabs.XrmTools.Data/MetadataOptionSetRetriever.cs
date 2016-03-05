@@ -15,11 +15,11 @@ namespace DynamicaLabs.XrmTools.Data
         private static readonly Dictionary<string, Dictionary<int, string>> ValuesDictionary =
             new Dictionary<string, Dictionary<int, string>>();
 
-        private readonly DefaultEntityRepository _defaultEntityRepository;
+        private readonly DefaultOrganizationServiceWrapper _defaultOrganizationServiceWrapper;
 
-        public MetadataOptionSetRetriever(DefaultEntityRepository defaultEntityRepository)
+        public MetadataOptionSetRetriever(DefaultOrganizationServiceWrapper defaultOrganizationServiceWrapper)
         {
-            _defaultEntityRepository = defaultEntityRepository;
+            _defaultOrganizationServiceWrapper = defaultOrganizationServiceWrapper;
         }
 
         public string GetOptionSetText(string optionSetName, OptionSetValue value, string etn, int def = 0)
@@ -82,7 +82,7 @@ namespace DynamicaLabs.XrmTools.Data
 
         private Dictionary<int, string> RetrieveOptionSet(string etn, string optionSetName)
         {
-            var service = _defaultEntityRepository.GetOrganizationService();
+            var service = _defaultOrganizationServiceWrapper.GetOrganizationService();
             OptionSetMetadata osMeta;
             try
             {

@@ -15,7 +15,7 @@ using Microsoft.Xrm.Sdk.Query;
 
 namespace DynamicaLabs.XrmTools.Data
 {
-    public class DefaultEntityRepository : IEntityRepository
+    public class DefaultOrganizationServiceWrapper : IOrganizationServiceWrapper
     {
         private OrganizationService _service;
         private readonly string _connectionString;
@@ -24,9 +24,9 @@ namespace DynamicaLabs.XrmTools.Data
         private readonly string _uri;
         private readonly string _userName;
 
-        public DefaultEntityRepository() { }
+        public DefaultOrganizationServiceWrapper() { }
 
-        public DefaultEntityRepository(IXrmConnectionStringProvider connectionStringProvider,
+        public DefaultOrganizationServiceWrapper(IXrmConnectionStringProvider connectionStringProvider,
             IEntityConstructor entityConstructor)
         {
             _entityConstructor = entityConstructor;
@@ -380,10 +380,10 @@ namespace DynamicaLabs.XrmTools.Data
             return CreateOrganizationService();
         }
 
-        public static DefaultEntityRepository FromOrganizationService(OrganizationService service,
+        public static DefaultOrganizationServiceWrapper FromOrganizationService(OrganizationService service,
             IEntityConstructor constructor)
         {
-            return new DefaultEntityRepository
+            return new DefaultOrganizationServiceWrapper
             {
                 _service = service,
                 _entityConstructor = constructor

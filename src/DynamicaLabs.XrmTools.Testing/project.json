@@ -25,6 +25,12 @@
         "System.Runtime.Serialization": "4.0.0.0"
       }
     },
-    "dnx451": { }
+    "dnx451": { },
+    "net46": {
+      "frameworkAssemblies": {
+        "System.Configuration": "4.0.0.0",
+        "System.Runtime.Serialization": "4.0.0.0"
+      }
+    }
   }
 }

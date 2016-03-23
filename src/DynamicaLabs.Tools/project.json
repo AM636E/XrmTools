@@ -1,0 +1,44 @@
+﻿{
+  "version": "1.0.1-*",
+  "description": "Defines base classes and relalizations for loggin, settings, etc.",
+  "authors": [ "Nazarii Brenchuk" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+  "dependencies": {
+    "Newtonsoft.Json": "8.0.3"
+  },
+  "compilationOptions": {
+    "publicSign": true,
+    "keyFile": "G:\\DynamicaLabs\\Projects\\key.snk",
+    "languageVersion": "csharp6"
+  },
+  "frameworks": {
+    "net40": {
+      "frameworkAssemblies": {
+        "System.Configuration": "4.0.0.0"
+      }
+    },
+    "net45": {
+      "frameworkAssemblies": {
+        "System.Configuration": "4.0.0.0"
+      }
+    },
+    "dnx450": {
+      "frameworkAssemblies": {
+        "System.Configuration": "4.0.0.0"
+      }
+    },
+    "net451": {
+      "frameworkAssemblies": {
+        "System.Configuration": "4.0.0.0"
+      }
+    },
+    "net46": {
+      "frameworkAssemblies": {
+        "System.Configuration": "4.0.0.0",
+        "System.Runtime.Serialization": "4.0.0.0"
+      }
+    }
+  }
+}

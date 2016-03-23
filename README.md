@@ -1,5 +1,6 @@
 ## XrmTools
 [![License](http://img.shields.io/badge/License-MIT-blue.svg)](http://opensource.org/licenses/MIT)
+[![Build status](https://ci.appveyor.com/api/projects/status/6oqa59nqotrm0xay/branch/master?svg=true)](https://ci.appveyor.com/project/AM636E/xrmtools/branch/master)
 
 ### Tools for simplifying Microsoft Dynamics CRM REST API buiding.
 XrmTools simplifies most commom tasks that developer performs why building Web apis with Dynamics CRM backend.

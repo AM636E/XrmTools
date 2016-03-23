@@ -12,11 +12,6 @@
     "Microsoft.Xrm.Client.2011": "5.0.18",
     "Microsoft.Xrm.Sdk.2011": "5.0.18"
   },
-  "compilationOptions": {
-    "publicSign": true,
-    "keyFile": "G:\\DynamicaLabs\\Projects\\key.snk",
-    "languageVersion": "csharp6"
-  },
   "frameworks": {
     "net40": {
       "frameworkAssemblies": {

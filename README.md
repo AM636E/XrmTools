@@ -3,7 +3,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/6oqa59nqotrm0xay/branch/master?svg=true)](https://ci.appveyor.com/project/AM636E/xrmtools/branch/master)
 
 ### Tools for simplifying Microsoft Dynamics CRM REST API buiding.
-XrmTools simplifies most commom tasks that developer performs why building Web apis with Dynamics CRM backend.
+XrmTools simplifies most commom tasks that developer performs when building Web APIs with Dynamics CRM backend.
 Such as :
 * Creating an organization service ( with of without impersonation )
 * Executing queries ( with ColumnSet generated automatically based on mapping )

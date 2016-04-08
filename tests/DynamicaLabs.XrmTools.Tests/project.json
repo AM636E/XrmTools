@@ -7,6 +7,10 @@
   "tags": [
     ""
   ],
+  "compilationOptions": {
+    "keyFile": "../../key.snk",
+    "publicSign": true
+  },
   "projectUrl": "",
   "licenseUrl": "",
   "dependencies": {
@@ -28,11 +32,11 @@
   "frameworks": {
     "dnx451": {
       "dependencies": {
-         "System.Runtime":  "4.0.0.0"
+        "System.Runtime": "4.0.0.0"
       },
       "frameworkAssemblies": {
         "System.Runtime": "4.0.0",
-        "System.Runtime.Serialization": "4.0.0.0" 
+        "System.Runtime.Serialization": "4.0.0.0"
       }
     }
   }

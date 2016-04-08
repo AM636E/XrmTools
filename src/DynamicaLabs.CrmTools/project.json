@@ -1,10 +1,9 @@
 ﻿{
-  "version": "1.0.0-*",
-  "description": "DynamicaLabs.CrmTools Class Library",
   "authors": [ "Nazarii Brenchuk" ],
-  "tags": [ "" ],
-  "projectUrl": "",
-  "licenseUrl": "",
+  "compilationOptions": {
+    "keyFile": "../../key.snk",
+    "publicSign": true
+  },
   "dependencies": {
     "DynamicaLabs.Tools": "1.1.2-*",
     "Microsoft.Crm.Sdk.Proxy.2011": "5.0.18",
@@ -12,6 +11,7 @@
     "Microsoft.Xrm.Sdk.2011": "5.0.18",
     "Newtonsoft.Json": "8.0.3"
   },
+  "description": "DynamicaLabs.CrmTools Class Library",
   "frameworks": {
     "net40": {
       "frameworkAssemblies": {
@@ -43,5 +43,9 @@
         "System.Runtime.Serialization": "4.0.0.0"
       }
     }
-  }
+  },
+  "licenseUrl": "",
+  "projectUrl": "",
+  "tags": [ "" ],
+  "version": "1.0.0-*"
 }

@@ -8,6 +8,10 @@
   "dependencies": {
     "Newtonsoft.Json": "8.0.3"
   },
+  "compilationOptions": {
+    "keyFile": "../../key.snk",
+    "publicSign": true
+  },
   "frameworks": {
     "net40": {
       "frameworkAssemblies": {

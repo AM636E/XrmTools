@@ -5,7 +5,10 @@
   "tags": [ "" ],
   "projectUrl": "",
   "licenseUrl": "",
-
+  "compilationOptions": {
+    "keyFile": "../../key.snk",
+    "publicSign": true
+  },
   "dependencies": {
     "DynamicaLabs.XrmTools.Construction": "1.1.5-*",
     "Newtonsoft.Json": "7.0.1",

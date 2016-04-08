@@ -13,7 +13,10 @@
     "Newtonsoft.Json": "7.0.1",
     "System.Configuration.Abstractions": "2.0.2.3"
   },
-
+  "compilationOptions": {
+    "keyFile": "../../key.snk",
+    "publicSign": true
+  },
   "frameworks": {
     "dnx451": {
       "frameworkAssemblies": {
@@ -23,6 +26,7 @@
     },
     "net45": {
       "frameworkAssemblies": {
+
         "System.Configuration": "4.0.0.0",
         "System.ServiceModel": "4.0.0.0"
       }
@@ -47,6 +51,7 @@
     },
     "net46": {
       "frameworkAssemblies": {
+        "System.ServiceModel": "4.0.0.0",
         "System.Configuration": "4.0.0.0",
         "System.Runtime.Serialization": "4.0.0.0"
       }

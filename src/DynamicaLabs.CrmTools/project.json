@@ -6,11 +6,11 @@
   "projectUrl": "",
   "licenseUrl": "",
   "dependencies": {
-    "Newtonsoft.Json": "8.0.3",
-    "DynamicaLabs.Tools": "1.0.1-*",
+    "DynamicaLabs.Tools": "1.1.2-*",
     "Microsoft.Crm.Sdk.Proxy.2011": "5.0.18",
     "Microsoft.Xrm.Client.2011": "5.0.18",
-    "Microsoft.Xrm.Sdk.2011": "5.0.18"
+    "Microsoft.Xrm.Sdk.2011": "5.0.18",
+    "Newtonsoft.Json": "8.0.3"
   },
   "frameworks": {
     "net40": {

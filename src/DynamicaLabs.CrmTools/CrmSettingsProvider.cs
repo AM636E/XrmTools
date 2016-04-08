@@ -6,20 +6,39 @@ using Microsoft.Xrm.Sdk.Query;
 
 namespace DynamicaLabs.CrmTools
 {
-    public class CrmSettingsProvider : BaseSettingsProvider
+    /// <summary>
+    /// Implements settings providers where settings are stored in crm entities.
+    /// </summary>
+    public sealed class CrmSettingsProvider : BaseSettingsProvider
     {
         private readonly IOrganizationService _organizationService;
         private readonly string _entityName;
         private readonly string _keyField;
         private readonly string _valueField;
+        private readonly string _connectionString;
 
+        /// <summary>
+        /// Initializes new instance of CrmSettingsProvider.
+        /// </summary>
+        /// <param name="entityName">Setting entity name.</param>
+        /// <param name="keyField">Key field name.</param>
+        /// <param name="valueField">Value field name.</param>
+        /// <param name="connectionString"></param>
         public CrmSettingsProvider(string entityName, string keyField, string valueField, string connectionString)
         {
-            _entityName = entityName;
-            _keyField = keyField;
-            _valueField = valueField;
+            _entityName = entityName.ToLower();
+            _keyField = keyField.ToLower();
+            _valueField = valueField.ToLower();
+            _connectionString = connectionString;
         }
 
+        /// <summary>
+        /// Initializes new instance of CrmSettingsProvider.
+        /// </summary>
+        /// <param name="entityName">Setting entity name.</param>
+        /// <param name="keyField">Key field name.</param>
+        /// <param name="valueField">Value field name.</param>
+        /// <param name="organizationService">Organization service to use.</param>
         public CrmSettingsProvider(string entityName, string keyField, string valueField, IOrganizationService organizationService) :
             this(entityName, keyField, valueField, string.Empty)
         {
@@ -42,8 +61,7 @@ namespace DynamicaLabs.CrmTools
                         Conditions =
                         {
                             new ConditionExpression("statecode", ConditionOperator.Equal, 0),
-                            new ConditionExpression(_keyField, ConditionOperator.NotNull),
-                            new ConditionExpression(_valueField, ConditionOperator.NotNull),
+                            new ConditionExpression(_keyField, ConditionOperator.NotNull)
                         }
                     }
             };
@@ -51,13 +69,14 @@ namespace DynamicaLabs.CrmTools
             keys.Select(it => new ConditionExpression(_keyField, ConditionOperator.Equal, it)).ToList()
                 .ForEach(filter.AddCondition);
             query.Criteria.AddFilter(filter);
-            return service.RetrieveMultiple(query).Entities;
+            var ents = service.RetrieveMultiple(query).Entities;
+            return ents;
         }
 
         public override IEnumerable<KeyValuePair<string, string>> GetMany(string[] keys)
         {
-            return GetManyEntities(keys).Select(
-                it =>
+            return GetManyEntities(keys)
+                .Select(it =>
                     new KeyValuePair<string, string>(
                         it.GetAttributeValue<string>(_keyField),
                         it.GetAttributeValue<string>(_valueField)));
@@ -67,10 +86,14 @@ namespace DynamicaLabs.CrmTools
         {
             var keyValuePairs = values as KeyValuePair<string, string>[] ?? values.ToArray();
             var entities = GetManyEntities(keyValuePairs.Select(it => it.Key).ToArray()).ToList();
+            // Keys that exists in crm.
             var eKeys = entities.Select(it => it.GetAttributeValue<string>(_keyField));
+            // Pairs that exists in crm.
             var ePairs = keyValuePairs.Where(it => eKeys.Any(ek => ek == it.Key));
+            // Pairs that don't exists in crm. They will be created.
             var nePairs = keyValuePairs.Where(it => !eKeys.Contains(it.Key)).ToList();
 
+            // Select keys to update.
             var toUpdate = ePairs.Select(it => new Entity(_entityName)
             {
                 Id = entities.First(e => e.GetAttributeValue<string>(_keyField) == it.Key).Id,

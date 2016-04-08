@@ -1,6 +1,6 @@
 ﻿namespace DynamicaLabs.Tools.Logging
 {
-    public class DefaultLogger : BaseLogger
+    public sealed class DefaultLogger : BaseLogger
     {
         public override void Log(LogType logType, string message)
         {

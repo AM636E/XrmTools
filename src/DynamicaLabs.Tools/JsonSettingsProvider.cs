@@ -8,7 +8,7 @@ namespace DynamicaLabs.Tools
     /// <summary>
     /// Represents simple key-value json settings.
     /// </summary>
-    public class JsonSettingsProvider : BaseSettingsProvider
+    public sealed class JsonSettingsProvider : BaseSettingsProvider
     {
         private readonly IFileProvider _fileProvider;
         private readonly string _fileName;

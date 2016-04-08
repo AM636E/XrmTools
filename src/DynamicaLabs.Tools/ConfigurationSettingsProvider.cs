@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace DynamicaLabs.Tools
 {
-    public class ConfigurationSettingsProvider : BaseSettingsProvider
+    public sealed class ConfigurationSettingsProvider : BaseSettingsProvider
     {
         private readonly string _prefix;
 

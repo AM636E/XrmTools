@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+#if !NET40
 using System.Threading.Tasks;
+#endif
 
 namespace DynamicaLabs.Tools
 {
@@ -9,52 +11,11 @@ namespace DynamicaLabs.Tools
         public abstract IEnumerable<KeyValuePair<string, string>> GetMany(string[] keys);
         public abstract void SetMany(IEnumerable<KeyValuePair<string, string>> values);
 
-#if !NET40
-        public virtual async Task<IEnumerable<KeyValuePair<string, string>>> GetManyAsync(string[] keys)
-        {
-            return await new Task<IEnumerable<KeyValuePair<string, string>>>(() => GetMany(keys));
-        }
-#else
-        public virtual Task<IEnumerable<KeyValuePair<string, string>>> GetManyAsync(string[] keys)
-        {
-            return null;
-        }
-#endif
-
         public string Get(string key)
         {
             var a = GetMany(new[] { key }).ToList();
             return a.Any() ? a.First().Value : string.Empty;
         }
-
-
-#if !NET40
-        public virtual async Task<string> GetAsync(string key)
-        {
-            var result = new Task<string>(() => Get(key));
-
-            return await result;
-        }
-#else
-        public virtual Task<string> GetAsync(string key)
-        {
-            return null;
-        }
-#endif
-
-
-#if !NET40
-        public virtual async void SetManyAsync(IEnumerable<KeyValuePair<string, string>> values)
-        {
-            await Task.Factory.StartNew(() => SetMany(values));
-        }
-#else
-        public virtual void SetManyAsync(IEnumerable<KeyValuePair<string, string>> values)
-        {
-
-        }
-#endif
-
 
         public void Set(KeyValuePair<string, string> value)
         {
@@ -71,17 +32,22 @@ namespace DynamicaLabs.Tools
         }
 
 #if !NET40
-        public virtual async void SetAsync(KeyValuePair<string, string> value)
+        public virtual async Task<IEnumerable<KeyValuePair<string, string>>> GetManyAsync(string[] keys)
+        {
+            return await Task.Run(() => GetMany(keys));
+        }
+        public virtual async Task<string> GetAsync(string key)
+        {
+            return await Task.Run(() => Get(key));
+        }
+        public virtual async Task SetManyAsync(IEnumerable<KeyValuePair<string, string>> values)
+        {
+            await Task.Factory.StartNew(() => SetMany(values));
+        }
+        public virtual async Task SetAsync(KeyValuePair<string, string> value)
         {
             await Task.Factory.StartNew(() => Set(value));
         }
-
-        
-#else
-        public virtual void SetAsync(KeyValuePair<string, string> value)
-        {
-        }
 #endif
-
     }
 }

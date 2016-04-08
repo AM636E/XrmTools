@@ -1,6 +1,6 @@
 ﻿{
-  "version": "1.0.1-*",
-  "description": "Defines base classes and relalizations for loggin, settings, etc.",
+  "version": "1.1.2-*",
+  "description": "Defines base classes and relalizations for logging, settings, etc.",
   "authors": [ "Nazarii Brenchuk" ],
   "tags": [ "" ],
   "projectUrl": "",
@@ -11,28 +11,42 @@
   "frameworks": {
     "net40": {
       "frameworkAssemblies": {
-        "System.Configuration": "4.0.0.0"
+        "System.Configuration": "4.0.0.0",
+        "System.Runtime.Caching": "4.0.0.0",
+        "System.ServiceModel": "4.0.0.0",
+        "System.Runtime.Serialization": "4.0.0.0"
       }
     },
     "net45": {
       "frameworkAssemblies": {
-        "System.Configuration": "4.0.0.0"
+        "System.Configuration": "4.0.0.0",
+        "System.Runtime.Caching": "4.0.0.0",
+        "System.ServiceModel": "4.0.0.0",
+        "System.Runtime.Serialization": "4.0.0.0"
       }
     },
     "dnx450": {
       "frameworkAssemblies": {
-        "System.Configuration": "4.0.0.0"
+        "System.Configuration": "4.0.0.0",
+        "System.Runtime.Caching": "4.0.0.0",
+        "System.ServiceModel": "4.0.0.0",
+        "System.Runtime.Serialization": "4.0.0.0"
       }
     },
     "net451": {
       "frameworkAssemblies": {
-        "System.Configuration": "4.0.0.0"
+        "System.Configuration": "4.0.0.0",
+        "System.Runtime.Caching": "4.0.0.0",
+        "System.ServiceModel": "4.0.0.0",
+        "System.Runtime.Serialization": "4.0.0.0"
       }
     },
     "net46": {
       "frameworkAssemblies": {
         "System.Configuration": "4.0.0.0",
-        "System.Runtime.Serialization": "4.0.0.0"
+        "System.Runtime.Serialization": "4.0.0.0",
+        "System.Runtime.Caching": "4.0.0.0",
+        "System.ServiceModel": "4.0.0.0"
       }
     }
   }

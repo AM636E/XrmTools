@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace DynamicaLabs.Tools
 {
     /// <summary>
-    /// Represents a settings provider.
+    /// Represents a simgle key-value settings provider.
     /// </summary>
     public interface ISettingsProvider
     {
@@ -14,15 +14,19 @@ namespace DynamicaLabs.Tools
         /// <param name="keys">Keys of settings</param>
         /// <returns>Settings</returns>
         IEnumerable<KeyValuePair<string, string>> GetMany(string[] keys);
-        Task<IEnumerable<KeyValuePair<string, string>>> GetManyAsync(string[] keys);
+        
         string Get(string key);
-        Task<string> GetAsync(string key);
+        
 
         void SetMany(IEnumerable<KeyValuePair<string, string>> values);
-        void SetManyAsync(IEnumerable<KeyValuePair<string, string>> values);
+       
         void Set(KeyValuePair<string, string> value);
-        void SetAsync(KeyValuePair<string, string> value);
 
-        string[] CheckRequired(string[] required);
+#if !NET40
+        Task<string> GetAsync(string key);
+        Task<IEnumerable<KeyValuePair<string, string>>> GetManyAsync(string[] keys);
+        Task SetManyAsync(IEnumerable<KeyValuePair<string, string>> values);
+        Task SetAsync(KeyValuePair<string, string> value);
+#endif
     }
 }

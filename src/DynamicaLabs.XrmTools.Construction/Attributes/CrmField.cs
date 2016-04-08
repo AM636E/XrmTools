@@ -2,7 +2,6 @@
 
 namespace DynamicaLabs.XrmTools.Construction.Attributes
 {
-    // TODO: Make attribute multiple to enable construction from different fields.
     /// <summary>
     /// Marks property as ready for construction.
     /// </summary>

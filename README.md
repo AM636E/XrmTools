@@ -10,8 +10,27 @@ Such as :
 * Manipulating entities
 * Entity to Model object mapping.
 * Logging and exception handling for WebApi.
+* Configuration providers and encryption.
+* Web requests, supporting sandboxed environments.
+
+## Packages
+ ##### DynamicaLabs.Tools:
+  Configuration, Logging, Encryption
+ [![NuGet version](https://badge.fury.io/nu/DynamicaLabs.Tools.svg)](https://badge.fury.io/nu/DynamicaLabs.Tools)
+ ##### DynamicaLabs.CrmTools
+  Sandboxed web request, Crm logging( with destination in crm entity )
+   [![NuGet version](https://badge.fury.io/nu/DynamicaLabs.CrmTools.svg)](https://badge.fury.io/nu/DynamicaLabs.CrmTools)
+ ##### DynamicaLabs.WebTools
+  Handlers and Filters for web api for logging, and exception handling.
+   [![NuGet version](https://badge.fury.io/nu/DynamicaLabs.WebTools.svg)](https://badge.fury.io/nu/DynamicaLabs.WebTools)
+ ##### DynamicaLabs.XrmTools.Construction
+   Model construction from crm entities. [![NuGet version](https://badge.fury.io/nu/DynamicaLabs.XrmTools.Construction.svg)](https://badge.fury.io/nu/DynamicaLabs.XrmTools.Construction)
+ ##### DynamicaLabs.XrmTools.Data
+  Contains IOrganizationServiceWrapper that allows easelly convert OrganizationService query results to model entities, perform impopersonated queries. [![NuGet version](https://badge.fury.io/nu/DynamicaLabs.XrmTools.Data.svg)](https://badge.fury.io/nu/DynamicaLabs.XrmTools.Data)
+
 
 ### Examples
+
 Suppose you have this class in your code.
 ```csharp
 // Map crm entity with model entity.

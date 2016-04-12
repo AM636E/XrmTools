@@ -20,6 +20,8 @@
     "DynamicaLabs.XrmTools.Construction": "1.1.5-*",
     "DynamicaLabs.XrmTools.Testing": "1.0.1-*",
     "DynamicaLabs.XrmTools.Data": "1.3.6-*",
+    "DynamicaLabs.Tools": "1.1.2",
+    "DynamicaLabs.CrmTools": "1.0.1",
     "Newtonsoft.Json": "7.0.1",
     "Moq": "4.2.1510.2205",
     "Microsoft.Xrm.Sdk.2011": "5.0.18",

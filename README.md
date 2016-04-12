@@ -56,7 +56,7 @@ class Account
 To retrieve a list of crm accounts and map them to this entity we need to do this:
 ```csharp
 // Setting up the repository.
-IEntityRepository er = new DefaultEntityRepository(new ConfigXrmConnectionStringProvider(connectionSettings), new ReflectionEntityConstructory());
+var er = new DefaultOrganizationServiceWrapper(new ConfigXrmConnectionStringProvider(connectionSettings), new ReflectionEntityConstructor());
 
 // accounts will have IEnumerable<Account> type.
 var accounts = er.GetEntities<Account>(new QueryExpression("account"));

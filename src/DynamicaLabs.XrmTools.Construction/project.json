@@ -13,11 +13,14 @@
     "Microsoft.Xrm.Sdk.2011": "5.0.18",
     "DynamicaLabs.XrmTools.Core": "1.0.1"
   },
-
+  "compilationOptions": {
+    "keyFile": "../../key.snk",
+    "publicSign": true
+  },
   "frameworks": {
     "dnx451": {
       "frameworkAssemblies": {
-        "System.Runtime.Serialization": "4.0.0.0" 
+        "System.Runtime.Serialization": "4.0.0.0"
       }
     },
     "net45": {

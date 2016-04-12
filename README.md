@@ -13,19 +13,19 @@ Such as :
 * Configuration providers and encryption.
 * Web requests, supporting sandboxed environments.
 
-## Packages
- ##### DynamicaLabs.Tools:
+## Packages:
+##### DynamicaLabs.Tools:
   Configuration, Logging, Encryption
  [![NuGet version](https://badge.fury.io/nu/DynamicaLabs.Tools.svg)](https://badge.fury.io/nu/DynamicaLabs.Tools)
- ##### DynamicaLabs.CrmTools
+##### DynamicaLabs.CrmTools
   Sandboxed web request, Crm logging( with destination in crm entity )
    [![NuGet version](https://badge.fury.io/nu/DynamicaLabs.CrmTools.svg)](https://badge.fury.io/nu/DynamicaLabs.CrmTools)
- ##### DynamicaLabs.WebTools
+##### DynamicaLabs.WebTools
   Handlers and Filters for web api for logging, and exception handling.
    [![NuGet version](https://badge.fury.io/nu/DynamicaLabs.WebTools.svg)](https://badge.fury.io/nu/DynamicaLabs.WebTools)
- ##### DynamicaLabs.XrmTools.Construction
+##### DynamicaLabs.XrmTools.Construction
    Model construction from crm entities. [![NuGet version](https://badge.fury.io/nu/DynamicaLabs.XrmTools.Construction.svg)](https://badge.fury.io/nu/DynamicaLabs.XrmTools.Construction)
- ##### DynamicaLabs.XrmTools.Data
+##### DynamicaLabs.XrmTools.Data
   Contains IOrganizationServiceWrapper that allows easelly convert OrganizationService query results to model entities, perform impopersonated queries. [![NuGet version](https://badge.fury.io/nu/DynamicaLabs.XrmTools.Data.svg)](https://badge.fury.io/nu/DynamicaLabs.XrmTools.Data)
 
 
@@ -56,7 +56,7 @@ class Account
 To retrieve a list of crm accounts and map them to this entity we need to do this:
 ```csharp
 // Setting up the repository.
-IEntityRepository er = new DefaultEntityRepository(new ConfigXrmConnectionStringProvider(connectionSettings), new ReflectionEntityConstructory());
+var er = new DefaultOrganizationServiceWrapper(new ConfigXrmConnectionStringProvider(connectionSettings), new ReflectionEntityConstructor());
 
 // accounts will have IEnumerable<Account> type.
 var accounts = er.GetEntities<Account>(new QueryExpression("account"));
